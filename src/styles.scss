@@ -1,1 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
+@forward "./styles/main.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Inter, sans-serif; background-color: black;}
+
+.instagram-media {
+  max-width: 100% !important;
+  margin: 0 auto !important;
+}

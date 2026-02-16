@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { routes } from './app.routes';
+import { StateService } from './services/state.service';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +11,7 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'sverdlov-front';
+  constructor(private stateService: StateService){
+    this.stateService.init();
+  }
 }
