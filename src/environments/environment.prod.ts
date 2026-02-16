@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'https://i-will-pay-back.onrender.com',
+  backendUrl: 'https://tickets-back-atqm.onrender.com',
 };
