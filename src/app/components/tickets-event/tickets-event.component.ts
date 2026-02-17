@@ -18,7 +18,7 @@ export class TicketsEventComponent {
   });
   tickets = computed(() => {
     const event = this.event();
-    return event?.tickets.filter((ticket: any) => ticket.priceVND > 0) || [];
+    return event?.tickets.filter((ticket: any) => ticket.priceVND > 0).reverse() || [];
   })
   reel = computed(() => {
     const event = this.event();
