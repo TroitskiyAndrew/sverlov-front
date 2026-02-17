@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { TICKET_NAMES } from '../../constants/constants';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-tickets-event',
@@ -11,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './tickets-event.component.scss'
 })
 export class TicketsEventComponent {
+  payment: 'VND' | 'RUB' | null = null;
   eventId = signal<string | null>(null);
   event = computed(() => {
     const id = this.eventId();
@@ -40,17 +42,11 @@ export class TicketsEventComponent {
   });
 
   ticketNames = TICKET_NAMES;
-  state = signal({
-    totalVND: 0,
-    totalRub: 0,
-    "0": 0,
-    "1": 0,
-    "2": 0,
-    "3": 0,
-    totalCount: 0
-  })
+  state = signal<any[]>([]);
+  totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
+  totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
 
-  constructor(private stateService: StateService, private route: ActivatedRoute) { }
+  constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -58,29 +54,53 @@ export class TicketsEventComponent {
     console.log('Текущее событие', this.event());
   }
 
-  buyTickets() {
-    console.log('Покупка билетов на событие', this.event());
+  buyTickets(type: 'VND' | 'RUB') {
+    this.payment = type;
+  }
+
+  downloadQR() {
+    const link = document.createElement('a');
+    link.href = 'assets/qr.png';
+    link.download = 'qr.png';
+    link.click();
+  }
+  async onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('eventId', this.eventId() || '');
+    formData.append('currency', this.payment || '');
+    formData.append('tickets', JSON.stringify(this.state().map(ticket => ({ type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }))));
+    await this.apiService.byTickets(formData);
+    this.payment = null;
+  }
+
+  cancelPayment() {
+    this.payment = null;
   }
 
   getCount(type: number): number {
-    return (this.state() as any)[type.toString()];
+    return this.state().filter((item: any) => item.type === type).length;
   }
 
   decrease(ticket: any) {
     const state = this.state();
-    state.totalVND -= ticket.priceVND;
-    state.totalRub -= ticket.priceRub;
-    state.totalCount -= 1;
-    (state as any)[ticket.type.toString()] = (state as any)[ticket.type.toString()] - 1;
-    this.state.set(state);
+    const index = state.findIndex(item => item.type === ticket.type);
+
+    if (index !== -1) {
+      state.splice(index, 1);
+    }
+    this.state.set([...state]);
   }
   increase(ticket: any) {
     const state = this.state();
-    state.totalVND += ticket.priceVND;
-    state.totalRub += ticket.priceRub;
-    state.totalCount += 1;
-    (state as any)[ticket.type.toString()] = (state as any)[ticket.type.toString()] + 1;
-    this.state.set(state);
+    state.push(ticket);
+    console.log('Текущее состояние билетов', state);
+    this.state.set([...state]);
   }
 
 }

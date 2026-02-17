@@ -1,10 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
+import { InstagramReelsCarouselComponent } from '../instagram-reels-carousel/instagram-reels-carousel.component';
 
 @Component({
   selector: 'app-event-page',
-  imports: [],
+  imports: [InstagramReelsCarouselComponent],
   templateUrl: './event-page.component.html',
   styleUrl: './event-page.component.scss'
 })
@@ -14,9 +15,25 @@ export class EventPageComponent {
     const id = this.eventId();
     return id ? this.stateService.eventsMap().get(id) : {};
   });
-  reel = computed(() => {
+  reels = computed(() => {
     const event = this.event();
-    return event.type === 0 ? 'https://www.instagram.com/reel/DStbYzaCPpW/' : 'https://www.instagram.com/reel/DStbYzaCPpW/';
+    return event.type === 0 ?
+      [
+        'https://www.instagram.com/reel/DM34PGNCiwL',
+        'https://www.instagram.com/reel/DMiK8mZiRas',
+        'https://www.instagram.com/reel/DIaudvavrD0',
+        'https://www.instagram.com/reel/DRTMgxXCC28',
+      ] :
+      [
+        'https://www.instagram.com/reel/DRK0KChiABd',
+        'https://www.instagram.com/reel/DTiN33FCLu3',
+        'https://www.instagram.com/reel/DSu6VgmiAU8',
+        'https://www.instagram.com/reel/DStbYzaCPpW',
+        'https://www.instagram.com/reel/DQ7q6_LCG5t',
+        'https://www.instagram.com/reel/DKiHuBKicUR',
+        'https://www.instagram.com/reel/DM5Dwawip3K',
+        'https://www.instagram.com/reel/DKFiMa9iXsu',
+      ];
   });
   description = computed(() => {
     const event = this.event();
@@ -27,7 +44,7 @@ export class EventPageComponent {
   });
   place = computed(() => {
     const event = this.event();
-    if(!event) {
+    if (!event) {
       return null;
     }
     return this.stateService.placesMap().get(event.place);

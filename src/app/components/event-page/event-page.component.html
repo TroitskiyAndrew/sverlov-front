@@ -1,9 +1,6 @@
 @if (event()){
 <div class="wrapper">
-  <div class="reels">
-    <blockquote class="instagram-media" [attr.data-instgrm-permalink]="reel()" data-instgrm-version="14">
-    </blockquote>
-  </div>
+  <app-instagram-reels-carousel [reels]="reels()" [short]="true"></app-instagram-reels-carousel>
   <div class="timing">
     <div> {{event().date}}</div>
     <div> {{event().start}}</div>

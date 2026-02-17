@@ -2,7 +2,7 @@
 
   <button class="nav left" (click)="scrollLeft()">‹</button>
 
-  <div #carousel class="carousel">
+  <div #carousel [class.short]="short" class="carousel">
     <div class="reel" *ngFor="let reel of reels">
 
       <div class="reel-inner">

@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Input,
   ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,30 +21,10 @@ declare global {
   styleUrl: './instagram-reels-carousel.component.scss'
 })
 export class InstagramReelsCarouselComponent implements AfterViewInit {
+  @Input() reels: string[] = [];
+  @Input() short: boolean = false;
 
   @ViewChild('carousel') carousel!: ElementRef;
-
-  reels = [
-    'https://www.instagram.com/reel/CqaGVL1JO5n/',
-    'https://www.instagram.com/reel/CrjFZ-XrOrX/',
-    'https://www.instagram.com/reel/Cuhat7ENbyq/',
-    'https://www.instagram.com/reel/CsWgk6NNrNS/',
-    'https://www.instagram.com/reel/Cyln9SUN6Ay',
-    'https://www.instagram.com/reel/C2iJURyiGEY',
-    'https://www.instagram.com/reel/C2nbgkqC-Sd',
-    'https://www.instagram.com/reel/C5ky-ACvAnn',
-    'https://www.instagram.com/reel/DAbuZSZicBj',
-    'https://www.instagram.com/reel/DARC8faCK_o',
-    'https://www.instagram.com/reel/DBJVmt0C8gy',
-    'https://www.instagram.com/reel/DDWp2eYCyi5',
-    'https://www.instagram.com/reel/DIdGDfIiEjC',
-    'https://www.instagram.com/reel/DOym13rCC4I',
-    'https://www.instagram.com/reel/DPw3vGViDTz',
-    'https://www.instagram.com/reel/DRhtVmqCIGP',
-    'https://www.instagram.com/reel/DKFiMa9iXsu',
-    'https://www.instagram.com/reel/Cwvb8Z9NeJR',
-    'https://www.instagram.com/reel/CyTyrWlNNOs',
-  ];
 
   ngAfterViewInit() {
     setTimeout(() => {

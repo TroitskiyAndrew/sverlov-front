@@ -22,4 +22,11 @@ export class ApiService {
       .toPromise()
       .then(res => res || [])
   }
+  async byTickets(formData: FormData): Promise<any[]> {
+    const url = `${environment.backendUrl}/tickets`;
+    return this.http
+      .post<any[]>(url, formData)
+      .toPromise()
+      .then(res => res || []);
+  }
 }

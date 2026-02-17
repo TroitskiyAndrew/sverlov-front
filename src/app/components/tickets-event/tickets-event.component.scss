@@ -11,7 +11,7 @@
   border: 1.5px solid #d4af37;
 }
 
-.schema-image{
+.schema-image {
   height: 250px;
 }
 
@@ -45,9 +45,8 @@
   cursor: pointer;
 
   transition: all 0.3s ease;
-      white-space: nowrap;
+  white-space: nowrap;
 }
-
 
 .tickets-wrapper {
   display: flex;
@@ -72,8 +71,7 @@
 
 .ticket-card:hover {
   border-color: #d4af37;
-  box-shadow:
-    0 0 25px rgba(212,175,55,0.15);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
 }
 
 .ticket-info {
@@ -96,7 +94,7 @@
 
 .ticket-add {
   font-size: 14px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* Контролы */
@@ -138,4 +136,13 @@
   text-align: center;
   font-size: 18px;
   color: white;
+}
+
+.qr {
+  max-width: 90%;
+  max-height: 70%;
+}
+
+.instruction {
+  text-align: center;
 }
