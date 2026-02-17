@@ -1,0 +1,27 @@
+@if (event()){
+<div class="wrapper">
+  <div class="reels">
+    <blockquote class="instagram-media" [attr.data-instgrm-permalink]="reel()" data-instgrm-version="14">
+    </blockquote>
+  </div>
+  <div class="timing">
+    <div> {{event().date}}</div>
+    <div> {{event().start}}</div>
+  </div>
+  <div class="place">
+    @if(place()){
+    <a [href]="place().map" target="_blank" rel="noopener noreferrer" class="venue-link">
+      {{ place().name }}
+    </a>
+    }
+  </div>
+  <div class="description">
+    {{description()}}
+  </div>
+
+  <button class="buy-button" (click)="buyTickets()">
+    Купить билеты
+  </button>
+</div>
+
+}

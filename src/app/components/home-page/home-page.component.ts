@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { InstagramReelsCarouselComponent } from "../instagram-reels-carousel/instagram-reels-carousel.component";
 import { StateService } from '../../services/state.service';
+import { EVENT_NAMES } from '../../constants/constants';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
@@ -11,7 +13,9 @@ import { CommonModule } from '@angular/common';
 })
 export class HomePageComponent {
 
-  constructor(public stateService: StateService) { }
+  eventsNames = EVENT_NAMES
+
+  constructor(public stateService: StateService, private router: Router) { }
 
 
   scrollToTour() {
@@ -25,7 +29,7 @@ export class HomePageComponent {
   }
 
   openEvent(event: any) {
-    console.log('Открыть событие', event);
+    this.router.navigate(['/event', event.id]);
   }
 
 }

@@ -1,0 +1,67 @@
+@if (event()){
+<div class="wrapper">
+  <div class="timing">
+    <div> {{event().date}}</div>
+    <div> {{event().start}}</div>
+  </div>
+  <div class="place">
+    @if(place()){
+    <a [href]="place().map" target="_blank" rel="noopener noreferrer" class="venue-link">
+      {{ place().name }}
+    </a>
+    }
+  </div>
+  <div class="schema">
+    <img class="schema-image" [src]="event().schema" alt="Схема зала">
+  </div>
+
+  <div class="tickets-wrapper">
+  <div class="ticket-card" *ngFor="let ticket of tickets()">
+
+    <div class="ticket-info">
+      <div class="ticket-title">
+        {{ ticketNames[ticket.type] }}
+      </div>
+
+      <div class="ticket-prices">
+        {{ ticket.priceVND }}k VND
+        /
+        {{ ticket.priceRub }} ₽
+      </div>
+
+      <div class="ticket-add">
+        {{ ticket.add }}
+      </div>
+    </div>
+
+    <div class="ticket-controls">
+      <button
+        class="control-btn"
+        (click)="decrease(ticket)"
+        [disabled]="getCount(ticket.type) === 0">
+        −
+      </button>
+
+      <div class="ticket-count">
+        {{ getCount(ticket.type) }}
+      </div>
+
+      <button
+        class="control-btn"
+        (click)="increase(ticket)">
+        +
+      </button>
+    </div>
+
+  </div>
+</div>
+
+  <button class="buy-button" (click)="buyTickets()" [disabled]="state().totalCount === 0">
+    Купить за {{ state().totalVND }}k VND
+  </button>
+  <button class="buy-button" (click)="buyTickets()" [disabled]="state().totalCount === 0">
+    Купить за {{ state().totalRub }} ₽
+  </button>
+</div>
+
+}

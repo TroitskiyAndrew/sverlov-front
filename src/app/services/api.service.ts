@@ -15,4 +15,11 @@ export class ApiService {
       .toPromise()
       .then(res => res || [])
   }
+  async getPlaces(): Promise<any[]> {
+    const url = `${environment.backendUrl}/places`;
+    return this.http
+      .get<any[]>(url)
+      .toPromise()
+      .then(res => res || [])
+  }
 }

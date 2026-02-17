@@ -1,0 +1,52 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  row-gap: 10px;
+  color: #d4af37;
+  padding: 10px;
+}
+.reels {
+  height: 404px;
+  width: 230px;
+  padding-top: 100px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #d4af37;
+}
+
+.timing {
+  display: flex;
+  align-items: center;
+  column-gap: 20px;
+}
+
+.venue-link {
+  color: #d4af37 !important;
+}
+
+.description {
+  text-align: center;
+}
+
+.buy-button {
+  padding: 14px 34px;
+
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  background: transparent;
+  color: #d4af37;
+
+  border: 1.5px solid #d4af37;
+  border-radius: 40px;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+      white-space: nowrap;
+}

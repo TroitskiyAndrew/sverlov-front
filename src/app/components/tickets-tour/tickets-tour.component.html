@@ -1,23 +1,4 @@
-<div class="home-page">
-  <div class="photo">
-    <div class="buttons">
-      <div class="tour-button-wrapper">
-      <button class="tour-button" (click)="scrollToTour()">
-        Расписание тура
-      </button>
-    </div>
-    </div>
-  </div>
-  <div class="reels">
-    <app-instagram-reels-carousel></app-instagram-reels-carousel>
-    <div class="tour-button-wrapper">
-      <button class="tour-button" (click)="scrollToTour()">
-        Расписание тура
-      </button>
-    </div>
-  </div>
-</div>
-<div id="tour" class="tour">
+<div class="tour">
   <div class="city-block" *ngFor="let city of stateService.cities()">
 
     <span class="city-title">
