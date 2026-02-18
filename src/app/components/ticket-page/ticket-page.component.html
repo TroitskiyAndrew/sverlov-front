@@ -1,34 +1,42 @@
 <div class="wrapper">
-  <div class="ticket-button">
+  @if(ticket()) {
+    <div class="ticket-button">
 
-      <div class="ticket-top">
-        <div class="ticket-city">
-          {{ ticket().city?.name }}
+        <div class="ticket-top">
+          <div class="ticket-city">
+            {{ ticket().city?.name }}
+          </div>
+
+          <div class="ticket-type">
+            {{ ticketNames[ticket().type] }}
+          </div>
+        </div>
+        @if (ticket().add) {
+        <div class="ticket-add">
+          {{ ticket().add }}
+        </div>
+        }
+        <div class="ticket-info">
+          <div>
+            {{ ticket().event?.date }} · {{ ticket().event?.start }}
+          </div>
+
+          <div class="ticket-place">
+            {{ ticket().place?.name }}
+          </div>
+
         </div>
 
-        <div class="ticket-type">
-          {{ ticketNames[ticket().type] }}
-        </div>
-      </div>
-      @if (ticket().add) {
-      <div class="ticket-add">
-        {{ ticket().add }}
-      </div>
-      }
-      <div class="ticket-info">
-        <div>
-          {{ ticket().event?.date }} · {{ ticket().event?.start }}
-        </div>
+        <div class="ticket-status">
 
-        <div class="ticket-place">
-          {{ ticket().place?.name }}
         </div>
 
       </div>
 
-      <div class="ticket-status">
-
-      </div>
-
-    </div>
+  } @else {
+    <div>Билет не найден</div>
+  }
+  <button class="buy-button" (click)="back()">
+    Назад
+  </button>
 </div>

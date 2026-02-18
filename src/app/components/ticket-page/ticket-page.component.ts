@@ -24,4 +24,7 @@ export class TicketPageComponent {
       console.log('Билет', ticket);
     })
   }
+  back() {
+    this.router.navigate(['']);
+  }
 }
