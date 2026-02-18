@@ -22,9 +22,12 @@ export class StateService {
   constructor(private apiService: ApiService) { }
 
   async init() {
+    console.log('Инициализация данных...');
     const cities = await this.apiService.getCities();
+    console.log('Города загружены', cities);
     this.cities.set(cities);
     const places = await this.apiService.getPlaces();
+    console.log('Места загружены', places);
     this.places.set(places);
   }
 }
