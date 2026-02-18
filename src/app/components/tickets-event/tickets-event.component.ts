@@ -46,7 +46,7 @@ export class TicketsEventComponent {
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
 
-  window = {};
+  window: string[] = [];
 
   constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService) { }
 
@@ -58,7 +58,7 @@ export class TicketsEventComponent {
 
     console.log(window.Telegram?.WebApp);
     console.log('initData:', window.Telegram?.WebApp?.initData);
-    this.window = window; // Сохраняем глобальный объект для использования в шаблоне
+    this.window = Object.keys(window);
   }
 
   buyTickets(type: 'VND' | 'RUB') {
