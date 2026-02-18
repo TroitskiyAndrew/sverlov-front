@@ -26,6 +26,8 @@
     <div> {{event().date}}</div>
     @if (initData) {
       <div>Telegram данные доступны</div>
+    } @else {
+      <div>Telegram данные не доступны</div>
     }
     <div> {{event().start}}</div>
   </div>
