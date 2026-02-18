@@ -11,7 +11,7 @@ import { TelegrammService } from './services/telegramm.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'sverdlov-front';
+  title = 'sverlov-front';
   constructor(private stateService: StateService, private telegrammService: TelegrammService, private router: Router) {
     this.stateService.init();
   }
