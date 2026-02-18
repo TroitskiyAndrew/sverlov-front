@@ -80,6 +80,9 @@
   <button class="buy-button" (click)="buyTickets('RUB')" [disabled]="state().length === 0">
     Купить за {{ totalRub() }} ₽
   </button>
+  <button class="buy-button" (click)="back()">
+    Назад
+  </button>
   }
 </div>
 

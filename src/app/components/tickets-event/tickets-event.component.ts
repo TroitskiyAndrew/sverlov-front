@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { TICKET_NAMES } from '../../constants/constants';
 import { CommonModule } from '@angular/common';
@@ -47,7 +47,7 @@ export class TicketsEventComponent {
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
 
 
-  constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService) { }
+  constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -82,6 +82,10 @@ export class TicketsEventComponent {
 
   cancelPayment() {
     this.payment = null;
+  }
+
+  back() {
+    this.router.navigate(['']);
   }
 
   getCount(type: number): number {

@@ -60,6 +60,10 @@ export class EventPageComponent {
     console.log('Текущее событие', this.event());
   }
 
+  back() {
+    this.router.navigate(['']);
+  }
+
   buyTickets() {
     if(this.telegrammService.initData) {
       this.router.navigate(['tickets/event', this.event().id]);
