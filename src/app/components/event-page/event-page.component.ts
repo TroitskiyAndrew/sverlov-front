@@ -64,7 +64,7 @@ export class EventPageComponent {
     if(this.telegrammService.initData) {
       this.router.navigate(['tickets/event', this.event().id]);
     } else {
-      window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=${this.eventId() || ''}`, '_blank');
+      window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=EVENT_SPLIT_${this.eventId() || ''}`, '_blank');
     }
   }
 }
