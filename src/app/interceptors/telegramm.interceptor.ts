@@ -7,7 +7,7 @@ const HEADER_NAME = 'X-Telegram-Init-Data';
 export const initDataInterceptor: HttpInterceptorFn = (req, next) => {
   const tg = inject(TelegrammService);
   const initData = tg.initData;
-  console.log('Telegram init data:', initData);
+  console.warn('Telegram init data:', initData);
   // если пусто — не трогаем запрос
   if (!initData) return next(req);
 
