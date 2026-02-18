@@ -2,6 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { InstagramReelsCarouselComponent } from '../instagram-reels-carousel/instagram-reels-carousel.component';
+import { TelegrammService } from '../../services/telegramm.service';
 
 @Component({
   selector: 'app-event-page',
@@ -51,7 +52,7 @@ export class EventPageComponent {
   });
 
 
-  constructor(private stateService: StateService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private stateService: StateService, private route: ActivatedRoute, private router: Router, private telegrammService: TelegrammService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -60,6 +61,10 @@ export class EventPageComponent {
   }
 
   buyTickets() {
-    this.router.navigate(['tickets/event', this.event().id]);
+    if(this.telegrammService.initData) {
+      this.router.navigate(['tickets/event', this.event().id]);
+    } else {
+      window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=${this.eventId() || ''}`, '_blank');
+    }
   }
 }
