@@ -16,24 +16,11 @@ export const routes: Routes = [
   },
   {
     path: 'event/:id',
-    component: EventPageComponent
+    component: TicketsEventComponent
   },
   {
     path: 'check-ticket/:id',
     component: TicketPageComponent
-  },
-  {
-    path: 'tickets',
-    component: TicketsMainComponent,
-    children: [
-      { path: 'tour', component: TicketsTourComponent },
-      { path: 'event/:id', component: TicketsEventComponent },
-      {
-        path: '',
-        pathMatch: 'full',
-        component: TicketsPageComponent
-      }
-    ]
   },
   {
     path: 'my-tickets',

@@ -57,17 +57,17 @@ export class HomePageComponent {
       { type: 'image', src: 'https://www.dropbox.com/scl/fi/d2wxwrb92nd3393gskkax/580683852_18060000170545617_3936766974794681335_n.jpg?rlkey=qhh0515ov840kgs2vrloptmtw&raw=1' },
     ];
   improvisationMedia: MediaItem[] = [
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/8gwzozi2yyqaqitlxdaq5/_2.mp4?rlkey=d23xo5plmq0capbtywotdaj5x&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/lph4x4k0h97v6zfihm934/_1.mp4?rlkey=sd86reh8ptndwjud5xtydjlll&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/fe8prueo7c6al4oqmsr71/_3.mp4?rlkey=4d1lygqhrg4bm8kyhp1pa2wjg&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/m34b6y0w2g9fnc1wec4b2/_5.mp4?rlkey=sv4hoz0gshkt1nfn9sxqfoau5&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/nh2rqi6ma7sjc8yc2jrmi/_6.mp4?rlkey=uk4r5hx9b5hn1l6wu1cvbkke1&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/fb015bafmad2heqqagtx5/_7.mp4?rlkey=1vosqx4cs8pylgqaum6wuw0y5&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/tbye5uv3jxx840ai6lpay/_8.mp4?rlkey=a3o418vkez3ot1lenss65vaab&dl=0' },
-      { type: 'video', src: 'https://www.dropbox.com/scl/fi/t1ma91yb8aun7epsbsgwd/_4.mp4?rlkey=01hsgsk2in02wea5v07j16vvm&dl=0' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/8gwzozi2yyqaqitlxdaq5/_2.mp4?rlkey=d23xo5plmq0capbtywotdaj5x&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/lph4x4k0h97v6zfihm934/_1.mp4?rlkey=sd86reh8ptndwjud5xtydjlll&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/fe8prueo7c6al4oqmsr71/_3.mp4?rlkey=4d1lygqhrg4bm8kyhp1pa2wjg&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/m34b6y0w2g9fnc1wec4b2/_5.mp4?rlkey=sv4hoz0gshkt1nfn9sxqfoau5&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/nh2rqi6ma7sjc8yc2jrmi/_6.mp4?rlkey=uk4r5hx9b5hn1l6wu1cvbkke1&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/fb015bafmad2heqqagtx5/_7.mp4?rlkey=1vosqx4cs8pylgqaum6wuw0y5&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/tbye5uv3jxx840ai6lpay/_8.mp4?rlkey=a3o418vkez3ot1lenss65vaab&raw=1' },
+      { type: 'video', src: 'https://www.dropbox.com/scl/fi/t1ma91yb8aun7epsbsgwd/_4.mp4?rlkey=01hsgsk2in02wea5v07j16vvm&raw=1' },
     ];
 
-  fromBot = true;
+  fromBot = false;
 
   constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService) { }
 
@@ -77,8 +77,8 @@ export class HomePageComponent {
     }
   }
 
-  scrollToTour() {
-    const element = document.getElementById('tour');
+  scrollTo(where: string) {
+    const element = document.getElementById(where);
     if (element) {
       element.scrollIntoView({
         behavior: 'smooth',
@@ -88,7 +88,11 @@ export class HomePageComponent {
   }
 
   openEvent(event: any) {
-    this.router.navigate(['/event', event.id]);
+    if (this.telegrammService.initData) {
+      this.router.navigate(['/event', event.id]);
+    } else {
+      window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=EVENT_SPLIT_${event.id}`, '_blank');
+    }
   }
   openMyTickets() {
     this.router.navigate(['/my-tickets']);

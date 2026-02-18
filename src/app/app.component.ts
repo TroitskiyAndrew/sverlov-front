@@ -20,7 +20,7 @@ export class AppComponent {
     if (this.telegrammService.startParam) {
       const [param, value] = this.telegrammService.startParam.split('_SPLIT_');
       if(param === 'EVENT') {
-        this.router.navigate(['tickets/event', value]);
+        this.router.navigate(['event', value]);
       } else if (param === 'TICKET') {
         this.router.navigate(['check-ticket', value]);
       }
