@@ -61,11 +61,11 @@ export class EventPageComponent {
   }
 
   back() {
-    this.router.navigate(['']);
+    this.router.navigate([''], { fragment: 'tour' });
   }
 
   buyTickets() {
-    if(this.telegrammService.initData) {
+    if (this.telegrammService.initData) {
       this.router.navigate(['tickets/event', this.event().id]);
     } else {
       window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=EVENT_SPLIT_${this.eventId() || ''}`, '_blank');

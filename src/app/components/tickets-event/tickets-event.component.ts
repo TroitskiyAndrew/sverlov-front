@@ -85,7 +85,7 @@ export class TicketsEventComponent {
   }
 
   back() {
-    this.router.navigate(['']);
+    this.router.navigate([''], { fragment: 'tour' });
   }
 
   getCount(type: number): number {
