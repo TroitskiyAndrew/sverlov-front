@@ -13,6 +13,10 @@
   <div class="instruction">
     Оплатите {{ totalRub() }} ₽ по номеру +79126697190(Альфа Банк) и отправьте скриншот квитанции.
   </div>
+  <div class="instruction phone" (click)="copyPhone()">{{ phone }}</div>
+  <div class="instruction">
+    на Альфа Банк и отправьте скриншот квитанции.
+  </div>
   }
   <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
   <button class="buy-button" (click)="fileInput.click()">

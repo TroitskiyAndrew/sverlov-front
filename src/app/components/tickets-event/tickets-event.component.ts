@@ -4,6 +4,7 @@ import { StateService } from '../../services/state.service';
 import { TICKET_NAMES } from '../../constants/constants';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-tickets-event',
@@ -46,6 +47,7 @@ export class TicketsEventComponent {
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
   showInfo = true;
+  phone = environment.phone;
 
 
   constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
@@ -65,6 +67,12 @@ export class TicketsEventComponent {
     link.href = 'assets/qr.png';
     link.download = 'qr.png';
     link.click();
+  }
+
+  copyPhone() {
+    navigator.clipboard.writeText(this.phone).then(() => {
+      alert('Номер телефона скопирован в буфер обмена!');
+    })
   }
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
