@@ -5,6 +5,7 @@ import { TicketsPageComponent } from './components/tickets-page/tickets-page.com
 import { TicketsTourComponent } from './components/tickets-tour/tickets-tour.component';
 import { TicketsMainComponent } from './components/tickets-main/tickets-main.component';
 import { TicketsEventComponent } from './components/tickets-event/tickets-event.component';
+import { MyTicketsPageComponent } from './components/my-tickets-page/my-tickets-page.component';
 
 export const routes: Routes = [
   {
@@ -28,5 +29,9 @@ export const routes: Routes = [
         component: TicketsPageComponent
       }
     ]
+  },
+  {
+    path: 'my-tickets',
+    component: MyTicketsPageComponent
   },
 ];

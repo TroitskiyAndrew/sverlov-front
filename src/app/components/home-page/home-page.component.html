@@ -5,6 +5,11 @@
       <button class="tour-button" (click)="scrollToTour()">
         Расписание тура
       </button>
+      @if (fromBot){
+        <button class="tour-button" (click)="openMyTickets()">
+        Мои билеты
+      </button>
+      }
     </div>
     </div>
   </div>

@@ -29,4 +29,11 @@ export class ApiService {
       .toPromise()
       .then(res => res || []);
   }
+  async getTickets(): Promise<any[]> {
+    const url = `${environment.backendUrl}/tickets`;
+    return this.http
+      .get<any[]>(url)
+      .toPromise()
+      .then(res => res || [])
+  }
 }

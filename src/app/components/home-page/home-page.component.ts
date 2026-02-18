@@ -4,6 +4,7 @@ import { StateService } from '../../services/state.service';
 import { EVENT_NAMES } from '../../constants/constants';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TelegrammService } from '../../services/telegramm.service';
 
 @Component({
   selector: 'app-home-page',
@@ -36,8 +37,15 @@ export class HomePageComponent {
     'https://www.instagram.com/reel/CyTyrWlNNOs',
   ];
 
-  constructor(public stateService: StateService, private router: Router) { }
+  fromBot = false;
 
+  constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService) { }
+
+  ngOnInit() {
+    if (this.telegrammService.initData) {
+      this.fromBot = true;
+    }
+  }
 
   scrollToTour() {
     const element = document.getElementById('tour');
@@ -52,5 +60,7 @@ export class HomePageComponent {
   openEvent(event: any) {
     this.router.navigate(['/event', event.id]);
   }
-
+  openMyTickets() {
+    this.router.navigate(['/my-tickets']);
+  }
 }

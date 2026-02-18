@@ -1,0 +1,69 @@
+.tickets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Билет как кнопка */
+.ticket-button {
+  width: 100%;
+  padding: 28px 36px;
+
+  background: transparent;
+  border: 1px solid #d4af37;
+  border-radius: 18px;
+
+  text-align: left;
+  color: #d4af37;
+
+  cursor: pointer;
+  transition: all 0.35s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Hover — как у навигации */
+.ticket-button:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(212,175,55,0.15) 0%,
+    rgba(212,175,55,0.05) 100%
+  );
+
+  box-shadow:
+    0 0 20px rgba(212,175,55,0.25),
+    0 0 40px rgba(212,175,55,0.1);
+
+  transform: translateY(-3px);
+}
+
+/* Верхняя строка */
+.ticket-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ticket-name {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.ticket-price {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.ticket-price span {
+  margin: 0 8px;
+  opacity: 0.5;
+}
+
+/* Доп. текст */
+.ticket-add {
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+}
