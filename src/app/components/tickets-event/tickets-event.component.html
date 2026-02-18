@@ -1,26 +1,37 @@
 @if (event()){
 <div class="wrapper">
   @if (payment) {
-    @if (payment === 'VND') {
-      <img class="qr" src="assets/qr.png" alt="QR">
-      <button class="buy-button" (click)="downloadQR()">
-        Сохранить QR
-      </button>
-      <div class="instruction">
-        Оплатите {{ totalVND() }}k VND и отправьте скриншот квитанции.
-      </div>
-    } @else {
-      <div class="instruction">
-        Оплатите {{ totalRub() }} ₽ по номеру +79126697190(Альфа Банк) и отправьте скриншот квитанции.
-      </div>
-    }
-    <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
-    <button class="buy-button" (click)="fileInput.click()">
-      Отправить квитанцию
-    </button>
-    <button class="buy-button" (click)="cancelPayment()">
-      Назад
-    </button>
+  @if (payment === 'VND') {
+  <img class="qr" src="assets/qr.png" alt="QR">
+  <button class="buy-button" (click)="downloadQR()">
+    Сохранить QR
+  </button>
+  <div class="instruction">
+    Оплатите {{ totalVND() }}k VND и отправьте скриншот квитанции.
+  </div>
+  } @else {
+  <div class="instruction">
+    Оплатите {{ totalRub() }} ₽ по номеру +79126697190(Альфа Банк) и отправьте скриншот квитанции.
+  </div>
+  }
+  <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
+  <button class="buy-button" (click)="fileInput.click()">
+    Отправить квитанцию
+  </button>
+  <button class="buy-button" (click)="cancelPayment()">
+    Назад
+  </button>
+  } @else if (showInfo) {
+  <div class="info">
+    Спасибо за покупку! Ваш платеж обрабатывается. После подтверждения оплаты, бот отправит вам билеты в телеграм. Если
+    у вас возникнут вопросы, напишите в чат с ботом.
+  </div>
+  <button class="buy-button" (click)="myTickets()">
+    Мои билеты
+  </button>
+  <button class="buy-button" (click)="back()">
+    На главную страниц
+  </button>
   } @else {
 
   <div class="timing">

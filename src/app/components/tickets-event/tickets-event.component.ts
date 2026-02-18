@@ -45,6 +45,7 @@ export class TicketsEventComponent {
   state = signal<any[]>([]);
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
+  showInfo = true;
 
 
   constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
@@ -76,8 +77,9 @@ export class TicketsEventComponent {
     formData.append('eventId', this.eventId() || '');
     formData.append('currency', this.payment || '');
     formData.append('tickets', JSON.stringify(this.state().map(ticket => ({ type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }))));
-    await this.apiService.byTickets(formData);
     this.payment = null;
+    this.showInfo = true;
+    await this.apiService.byTickets(formData);
   }
 
   cancelPayment() {
@@ -86,6 +88,9 @@ export class TicketsEventComponent {
 
   back() {
     this.router.navigate([''], { fragment: 'tour' });
+  }
+  myTickets() {
+    this.router.navigate(['my-tickets']);
   }
 
   getCount(type: number): number {
