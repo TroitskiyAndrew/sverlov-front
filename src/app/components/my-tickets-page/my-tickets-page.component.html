@@ -1,21 +1,51 @@
+<div class="wrapper">
+  <div>Мои билеты</div>
   <div class="tickets-list">
 
-    <button
-      class="ticket-button"
-      *ngFor="let ticket of tickets()">
+    <div class="ticket-button" *ngFor="let ticket of tickets()" (click)="openTicket(ticket)">
 
-      <div class="ticket-main">
-        <div class="ticket-name">
-          {{ ticket.price }}
+      <div class="ticket-top">
+        <div class="ticket-city">
+          {{ ticket.city?.name }}
         </div>
 
+        <div class="ticket-type">
+          {{ ticketNames[ticket.type] }}
+        </div>
+      </div>
+      @if (ticket.add) {
+      <div class="ticket-add">
+        {{ ticket.add }}
+      </div>
+      }
+      <div class="ticket-info">
+        <div>
+          {{ ticket.event?.date }} · {{ ticket.event?.start }}
+        </div>
+
+        <div class="ticket-place">
+          {{ ticket.place?.name }} <a class="ticket-map" [href]="ticket.place?.map" target="_blank">
+            Открыть на карте
+          </a>
+        </div>
 
       </div>
 
+      <div class="ticket-status">
+        @if (ticket.confirmed) {
+        <img [src]="backUrl + '/qr/' + ticket.id" class="qr-image" />
+        } @else {
+          <div>Ожидайте подтверждения оплаты</div>
+        }
 
+      </div>
 
-    </button>
+    </div>
 
   </div>
 
+  <button class="buy-button" (click)="back()">
+    Назад
+  </button>
 
+</div>

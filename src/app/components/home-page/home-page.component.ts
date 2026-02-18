@@ -37,7 +37,7 @@ export class HomePageComponent {
     'https://www.instagram.com/reel/CyTyrWlNNOs',
   ];
 
-  fromBot = false;
+  fromBot = true;
 
   constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService) { }
 

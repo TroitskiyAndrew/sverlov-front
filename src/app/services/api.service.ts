@@ -36,4 +36,11 @@ export class ApiService {
       .toPromise()
       .then(res => res || [])
   }
+  async getTicket(id: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/ticket/${id}`;
+    return this.http
+      .get<any>(url)
+      .toPromise()
+      .then(res => res || null).catch(() => null);
+  }
 }
