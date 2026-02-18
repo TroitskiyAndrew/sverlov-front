@@ -12,6 +12,7 @@ export class TelegrammService {
 
   /** Неподписанные данные — можно показать в UI, но не доверять */
   readonly user = this.tg?.initDataUnsafe?.user ?? null;
+  readonly startParam = this.tg?.initDataUnsafe?.start_param ?? null;
 
   constructor() {
     try { this.tg?.ready?.(); this.tg?.expand?.(); } catch { }
