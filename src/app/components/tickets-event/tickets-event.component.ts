@@ -46,7 +46,7 @@ export class TicketsEventComponent {
   state = signal<any[]>([]);
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
-  showInfo = true;
+  showInfo = false;
   phone = environment.phone;
 
 
