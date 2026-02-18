@@ -46,12 +46,21 @@ export class TicketsEventComponent {
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
 
+  initData = false;
+
   constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.eventId.set(id);
     console.log('Текущее событие', this.event());
+
+
+    console.log(window.Telegram?.WebApp);
+    console.log('initData:', window.Telegram?.WebApp?.initData);
+    if(window.Telegram?.WebApp?.initData) {
+      this.initData = true;
+    }
   }
 
   buyTickets(type: 'VND' | 'RUB') {

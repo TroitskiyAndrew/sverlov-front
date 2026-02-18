@@ -24,6 +24,9 @@
   } @else {
   <div class="timing">
     <div> {{event().date}}</div>
+    @if (initData) {
+      <div>Telegram данные доступны</div>
+    }
     <div> {{event().start}}</div>
   </div>
   <div class="place">
