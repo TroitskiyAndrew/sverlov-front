@@ -8,27 +8,22 @@
 .carousel {
   display: flex;
   gap: 20px;
-  overflow-x: hidden; /* 🔥 убрали скролл */
-  scroll-behavior: smooth;
-  padding: 20px 60px; /* место под кнопки */
-  width: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 20px;
+  justify-content: center;
 }
 
+/* Мобильная версия */
 .slide {
   flex: 0 0 85%;
+  scroll-snap-align: center;
   border-radius: 20px;
   overflow: hidden;
   background: #000;
 }
 
-img,
-video {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 20px;
-}
-
+/* Планшет */
 @media (min-width: 768px) {
   .slide {
     flex: 0 0 60%;
@@ -37,14 +32,18 @@ video {
 
 /* Десктоп */
 @media (min-width: 1200px) {
-  .carousel {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
 
   .slide {
     flex: 0 0 30%;
   }
+}
+
+img,
+video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
 }
 
 .nav {
