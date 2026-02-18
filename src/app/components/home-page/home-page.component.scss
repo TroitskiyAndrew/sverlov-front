@@ -8,8 +8,9 @@
   position: relative;
   width: 50%;
   min-height: 100vh; /* вместо height */
-  background-image: url("../../../assets/main.jpg");
-  background-size: cover;
+  background-image: url("../../../assets/main.png");
+  background-size: contain;
+    background-repeat: no-repeat;
   background-position: top;
   .buttons {
     display: none;

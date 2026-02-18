@@ -20,6 +20,12 @@
     </div>
   </div>
 </div>
+<div class="concert">
+  <app-media-carousel [items]="concertMedia"></app-media-carousel>
+</div>
+<div class="improvisation">
+  <app-media-carousel [items]="improvisationMedia"></app-media-carousel>
+</div>
 <div id="tour" class="tour">
   <div class="city-block" *ngFor="let city of stateService.cities()">
 
