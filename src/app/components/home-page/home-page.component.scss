@@ -40,12 +40,25 @@
   text-align: center;
 }
 
+.title-small {
+  font-size: 20px;
+}
+
 .text {
   color: white;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
   margin-bottom: 10px;
+}
+
+.important {
+  font-size: 24px;
+  font-weight: 500;
+  color: white;
+  background-color: #d4af37;
+  padding: 15px;
+  border-radius: 20px;
 }
 
 .description {

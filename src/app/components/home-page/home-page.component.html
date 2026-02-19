@@ -74,8 +74,10 @@
     <app-media-carousel [items]="improvisationMedia"></app-media-carousel>
   </div>
   <div id="tour" class="tour">
-    <div class="title text">Ну всё, ищи свой город и хватай билеты их немного!
-      Внимание! При покупке билетов сразу на 2 шоу скидка 20%</div>
+    <div class="title title-small">Ну всё, ищи свой город и хватай билеты их немного!</div>
+    <div class="important">
+      Внимание! При покупке билетов сразу на 2 шоу скидка 20%
+    </div>
 
 
     <div class="city-block" *ngFor="let city of stateService.cities()">
