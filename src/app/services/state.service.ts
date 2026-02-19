@@ -30,20 +30,19 @@ export class StateService {
     this.apiService.getTickets().then(tickets => {
       this.userTickets.set(tickets);
       this.loadingUserTickets = false;
-      console.log('Мои билеты', tickets);
     });
   }
 
   async init() {
-    console.log('Инициализация данных...');
+    if(this.telegrammService.initData){
+      this.updateUserTickets();
+    }
     const cities = await this.apiService.getCities();
     console.log('Города загружены', cities);
     this.cities.set(cities);
     const places = await this.apiService.getPlaces();
     console.log('Места загружены', places);
     this.places.set(places);
-    if(this.telegrammService.initData){
-      this.updateUserTickets();
-    }
+
   }
 }
