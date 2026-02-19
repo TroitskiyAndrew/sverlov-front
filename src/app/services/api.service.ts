@@ -43,4 +43,11 @@ export class ApiService {
       .toPromise()
       .then(res => res || null).catch(() => null);
   }
+  async saveVisit(city: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/cities`;
+    return this.http
+      .post<any>(url, {city})
+      .toPromise()
+      .then(res => res || null).catch(() => null);
+  }
 }

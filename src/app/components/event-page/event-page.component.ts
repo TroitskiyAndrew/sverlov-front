@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { InstagramReelsCarouselComponent } from '../instagram-reels-carousel/instagram-reels-carousel.component';
 import { TelegrammService } from '../../services/telegramm.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-event-page',
@@ -14,7 +15,11 @@ export class EventPageComponent {
   eventId = signal<string | null>(null);
   event = computed(() => {
     const id = this.eventId();
-    return id ? this.stateService.eventsMap().get(id) : {};
+    const event = this.stateService.eventsMap().get(id || '');
+    if(event){
+      this.apiService.saveVisit(event.city);
+    }
+    return event || {};
   });
   reels = computed(() => {
     const event = this.event();
@@ -52,12 +57,13 @@ export class EventPageComponent {
   });
 
 
-  constructor(private stateService: StateService, private route: ActivatedRoute, private router: Router, private telegrammService: TelegrammService) { }
+  constructor(private stateService: StateService, private route: ActivatedRoute, private router: Router, private telegrammService: TelegrammService, private apiService: ApiService) { }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.eventId.set(id);
     console.log('Текущее событие', this.event());
+
   }
 
   back() {
