@@ -78,6 +78,16 @@ export class TicketsEventComponent {
 
   constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
+  imageLoaded = signal(false);
+
+  onImageLoad() {
+    this.imageLoaded.set(true);
+  }
+
+  onImageError() {
+    this.imageLoaded.set(true); // чтобы лоадер не крутился вечно
+  }
+
   selectedOtherEvent = signal<any | null>(null);
 
   selectOtherEvent(event: any) {
@@ -120,8 +130,8 @@ export class TicketsEventComponent {
     formData.append('currency', this.payment || '');
     const tickets = this.state().map(ticket => ({ eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }));
     const otherEvents = this.selectedOtherEvent();
-    if(otherEvents) {
-      tickets.push(...tickets.map(ticket => ({...ticket, eventId: otherEvents.id, price: ticket.price * 0.8})))
+    if (otherEvents) {
+      tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvents.id, price: ticket.price * 0.8 })))
     }
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = null;

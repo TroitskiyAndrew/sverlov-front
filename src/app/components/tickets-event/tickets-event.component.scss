@@ -6,12 +6,50 @@
   color: #d4af37;
   padding: 10px;
 }
+
 .schema {
+  position: relative;
   border: 1.5px solid #d4af37;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 250px;
+  min-width: 250px;
 }
 
 .schema-image {
   height: 250px;
+  transition: opacity 0.3s ease;
+}
+
+.schema-image.hidden {
+  opacity: 0;
+}
+
+/* Лоадер контейнер */
+.schema-loader {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Золотой спиннер */
+.gold-spinner {
+  width: 60px;
+  height: 60px;
+  border: 6px solid transparent;
+  border-top: 6px solid #d4af37;   // золотой
+  border-right: 6px solid #d4af37; // делаем полукруг
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.6));
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .timing {

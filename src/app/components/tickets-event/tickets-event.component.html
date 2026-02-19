@@ -51,7 +51,20 @@
     }
   </div>
   <div class="schema">
-    <img class="schema-image" [src]="event().schema" alt="Схема зала">
+      @if (!imageLoaded()) {
+    <div class="schema-loader">
+      <div class="gold-spinner"></div>
+    </div>
+  }
+
+  <img
+    class="schema-image"
+    [class.hidden]="!imageLoaded()"
+    [src]="event().schema"
+    alt="Схема зала"
+    (load)="onImageLoad()"
+    (error)="onImageError()"
+  >
   </div>
 
   @if (otherEvents().length > 0) {
