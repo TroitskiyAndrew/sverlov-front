@@ -10,6 +10,7 @@
   max-height: 100vh;
   max-width: 100%;
   box-shadow: inset 0 0 15px 10px rgba(0, 0, 0, 1);
+  position: relative;
 }
 
 .photo {
@@ -20,10 +21,14 @@
 }
 
 .buttons {
+  position: absolute;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
   width: max-content;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12%;
 }
 
 .title {
@@ -118,17 +123,13 @@
   gap: 14px;
 }
 
-.event-type {
-  white-space: nowrap;
-}
-
 /* Кнопки мероприятий */
 
 .event-button {
   display: flex;
   align-items: center;
   column-gap: 5px;
-  padding: 14px 22px;
+  padding: 10px 15px;
 
   background: transparent;
   border: 1px solid rgba(212, 175, 55, 0.4);

@@ -1,69 +1,69 @@
 <div class="wrapper">
   <div class="photo-wrapper">
     <img src="assets/main.png" alt="Фото" class="photo">
+    <div class="buttons">
+      @if (fromBot){
+      <button class="tour-button" (click)="openMyTickets()">
+        Мои билеты
+      </button>
+      }
+
+      <button class="tour-button" (click)="scrollTo('concert')">
+        Стендап-концерт
+      </button>
+      <button class="tour-button" (click)="scrollTo('improvisation')">
+        Импровизация
+      </button>
+      <button class="tour-button" (click)="scrollTo('tour')">
+        Расписание тура
+      </button>
+    </div>
   </div>
-<div class="buttons">
-  @if (fromBot){
-  <button class="tour-button" (click)="openMyTickets()">
-    Мои билеты
-  </button>
-  }
 
-  <button class="tour-button" (click)="scrollTo('concert')">
-    Стендап-концерт
-  </button>
-  <button class="tour-button" (click)="scrollTo('improvisation')">
-    Импровизация
-  </button>
-<button class="tour-button" (click)="scrollTo('tour')">
-    Расписание тура
-  </button>
-</div>
 
-<div class="reels">
-  <div class="title">"Залетевшие" рилсы</div>
-  <app-instagram-reels-carousel [reels]="reels"></app-instagram-reels-carousel>
-</div>
-<div id="concert" class="concert">
-  <div class="title">Стендап-концерт</div>
-  <app-media-carousel [items]="concertMedia"></app-media-carousel>
-</div>
-<div id="improvisation" class="improvisation">
-  <div class="title">Стендап-нетворкинг</div>
-  <div class="description">импровизационное шоу Дмитрия Сверлова, где он
+  <div class="reels">
+    <div class="title">"Залетевшие" рилсы</div>
+    <app-instagram-reels-carousel [reels]="reels"></app-instagram-reels-carousel>
+  </div>
+  <div id="concert" class="concert">
+    <div class="title">Стендап-концерт</div>
+    <app-media-carousel [items]="concertMedia"></app-media-carousel>
+  </div>
+  <div id="improvisation" class="improvisation">
+    <div class="title">Стендап-нетворкинг</div>
+    <div class="description">импровизационное шоу Дмитрия Сверлова, где он
       знакомится со зрителями в зале и “на приколе и стёбе” помогает им найти друзей,
       отношения, клиентов, решения проблем</div>
-  <app-media-carousel [items]="improvisationMedia"></app-media-carousel>
-</div>
-<div id="tour" class="tour">
-  <div class="city-block" *ngFor="let city of stateService.cities()">
+    <app-media-carousel [items]="improvisationMedia"></app-media-carousel>
+  </div>
+  <div id="tour" class="tour">
+    <div class="city-block" *ngFor="let city of stateService.cities()">
 
-    <span class="city-title">
-      {{ city.name }}
-    </span>
+      <span class="city-title">
+        {{ city.name }}
+      </span>
 
-    <div class="events">
+      <div class="events">
 
-      <button class="event-button" *ngFor="let event of city.events" (click)="openEvent(event)">
+        <button class="event-button" *ngFor="let event of city.events" (click)="openEvent(event)">
 
-        <span class="event-date">
-          {{ event.date }}
-        </span>
+          <span class="event-date">
+            {{ event.date }}
+          </span>
 
-        <span class="event-place">
-          {{ event.start }}
-        </span>
+          <span class="event-place">
+            {{ event.start }}
+          </span>
 
-        <span class="event-type">
-          {{ eventsNames[event.type] }}
-        </span>
+          <span class="event-type">
+            {{ eventsNames[event.type] }}
+          </span>
 
-      </button>
+        </button>
+
+      </div>
 
     </div>
-
   </div>
-</div>
 
 </div>
-
