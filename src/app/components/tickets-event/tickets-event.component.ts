@@ -17,7 +17,11 @@ export class TicketsEventComponent {
   eventId = signal<string | null>(null);
   event = computed(() => {
     const id = this.eventId();
-    return id ? this.stateService.eventsMap().get(id) : {};
+    const event = this.stateService.eventsMap().get(id || '');
+    if(event){
+      this.apiService.saveVisit(event.city);
+    }
+    return event || {};
   });
   tickets = computed(() => {
     const event = this.event();
