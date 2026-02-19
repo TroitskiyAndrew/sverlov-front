@@ -128,10 +128,10 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.payment || '');
-    const tickets = this.state().map(ticket => ({ eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }));
-    const otherEvents = this.selectedOtherEvent();
-    if (otherEvents) {
-      tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvents.id, price: ticket.price * 0.8 })))
+    const tickets = this.state().map(ticket => ({add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }));
+    const otherEvent = this.selectedOtherEvent();
+    if (otherEvent) {
+      tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '' })));
     }
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = null;
