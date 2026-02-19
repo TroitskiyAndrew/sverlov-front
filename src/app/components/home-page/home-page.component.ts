@@ -67,7 +67,7 @@ export class HomePageComponent {
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/t1ma91yb8aun7epsbsgwd/_4.mp4?rlkey=01hsgsk2in02wea5v07j16vvm&raw=1' },
     ];
 
-  fromBot = true;
+  fromBot = false;
 
   constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService) { }
 
