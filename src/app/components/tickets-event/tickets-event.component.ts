@@ -82,9 +82,8 @@ export class TicketsEventComponent {
     const file = input.files[0];
     const formData = new FormData();
     formData.append('image', file);
-    formData.append('eventId', this.eventId() || '');
     formData.append('currency', this.payment || '');
-    formData.append('tickets', JSON.stringify(this.state().map(ticket => ({ type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }))));
+    formData.append('tickets', JSON.stringify(this.state().map(ticket => ({ eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }))));
     this.payment = null;
     this.showInfo = true;
     await this.apiService.byTickets(formData);
@@ -115,6 +114,7 @@ export class TicketsEventComponent {
     this.state.set([...state]);
   }
   increase(ticket: any) {
+    ticket.eventId = this.eventId();
     const state = this.state();
     state.push(ticket);
     console.log('Текущее состояние билетов', state);
