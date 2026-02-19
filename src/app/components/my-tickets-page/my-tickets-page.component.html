@@ -1,13 +1,13 @@
 <div class="wrapper">
   <div class="title">Мои билеты</div>
-  @if (loading) {
+  @if (stateService.loadingUserTickets) {
   <div class="loader-wrapper">
     <div class="gold-loader"></div>
   </div>
   } @else {
     <div class="tickets-list">
 
-      <div class="ticket-button" *ngFor="let ticket of tickets()" (click)="openTicket(ticket)">
+      <div class="ticket-button" *ngFor="let ticket of stateService.userTickets()" (click)="openTicket(ticket)">
 
         <div class="ticket-top">
           <div class="ticket-city">

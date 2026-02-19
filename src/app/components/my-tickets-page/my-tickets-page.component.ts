@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TICKET_NAMES } from '../../constants/constants';
 import { environment } from '../../../environments/environment';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-my-tickets-page',
@@ -13,18 +14,10 @@ import { environment } from '../../../environments/environment';
   styleUrl: './my-tickets-page.component.scss'
 })
 export class MyTicketsPageComponent {
-  tickets = signal<any[]>([]);
   ticketNames = TICKET_NAMES;
   backUrl = environment.backendUrl;
-  loading = true;
 
-  constructor(private apiService: ApiService, private router: Router) {
-    this.apiService.getTickets().then(tickets => {
-      this.tickets.set(tickets);
-      this.loading = false;
-      console.log('Мои билеты', tickets);
-    });
-  }
+  constructor(private apiService: ApiService, private router: Router, public stateService: StateService) {  }
   back() {
     this.router.navigate(['']);
   }
