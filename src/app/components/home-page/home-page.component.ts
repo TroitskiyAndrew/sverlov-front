@@ -38,8 +38,8 @@ export class HomePageComponent {
     'https://www.instagram.com/reel/CyTyrWlNNOs',
   ];
   concertMedia: MediaItem[] = [
+    { type: 'image', src: 'https://www.dropbox.com/scl/fi/p9rrxwmxjx2nupd1mglad/571013699_18100219999673867_311981241388369606_n.jpg?rlkey=cyqfwx1a0uvqlso31lcvwxz68&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/qmlm277a300eprixnu7yq/StorySaver.net-sverlovsk-Video-1771418125240.mp4?rlkey=kgkqif3i4a2sdjvdxacn2cvty&raw=1' },
-      { type: 'image', src: 'https://www.dropbox.com/scl/fi/2622zkxv7hja4mp74rqmh/483170708_18489431200028132_6263455324878847419_n.jpg?rlkey=3zhcfeotvxtl6wp1joc89hyvn&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/0agyqf2far45uuqtajccy/StorySaver.net-sverlovsk-Video-1771418168375.mp4?rlkey=jnur5n3jxlfoq0ldxuf5ouqzy&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/2q0rp1g2vs0crtakg1ybc/StorySaver.net-sverlovsk-Video-1771418174330.mp4?rlkey=mgx2292w2uu1e7i264m2rbdlc&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/16ic10djsk2e5zfzeygey/StorySaver.net-sverlovsk-Video-1771418188886.mp4?rlkey=8gdclif3w7ptchlrrwe0x10tm&raw=1' },
@@ -50,13 +50,13 @@ export class HomePageComponent {
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/g006h857e9aj971kl3hjn/StorySaver.net-sverlovsk-Video-1771418293668.mp4?rlkey=68wuaa89j7b3hqd7nynvzkcd3&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/n5c76lvz0wk018bwqkfny/StorySaver.net-sverlovsk-Video-1771418320304.mp4?rlkey=4bny5ys4ezlg1b3sxuqy7tsiw&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/oxk3dblhz6pmogl9lz6x0/StorySaver.net-sverlovsk-Video-1771418349347.mp4?rlkey=grg9hyf4ers1g048ugmsiwfsf&raw=1' },
-      { type: 'image', src: 'https://www.dropbox.com/scl/fi/fhjnfhhokd2o5jo4drps1/483223133_18489431182028132_2805891946828374716_n.jpg?rlkey=tahex78tojplff40lcezxltlq&raw=1' },
       { type: 'image', src: 'https://www.dropbox.com/scl/fi/ogzx6r08zrqik5oqau1yy/563049786_18081679343491269_4983357276798840518_n.jpg?rlkey=hyzuq3ffkttquw3wdiiwpydee&raw=1' },
+      { type: 'image', src: 'https://www.dropbox.com/scl/fi/2622zkxv7hja4mp74rqmh/483170708_18489431200028132_6263455324878847419_n.jpg?rlkey=3zhcfeotvxtl6wp1joc89hyvn&raw=1' },
       { type: 'image', src: 'https://www.dropbox.com/scl/fi/arryqzoz2ehp3frwyxn75/566244031_18057038474548646_4902948168267675274_n.jpg?rlkey=vx6shknx3h93fb2ez38pmgm41&raw=1' },
-      { type: 'image', src: 'https://www.dropbox.com/scl/fi/p9rrxwmxjx2nupd1mglad/571013699_18100219999673867_311981241388369606_n.jpg?rlkey=cyqfwx1a0uvqlso31lcvwxz68&raw=1' },
       { type: 'image', src: 'https://www.dropbox.com/scl/fi/d2wxwrb92nd3393gskkax/580683852_18060000170545617_3936766974794681335_n.jpg?rlkey=qhh0515ov840kgs2vrloptmtw&raw=1' },
     ];
-  improvisationMedia: MediaItem[] = [
+    improvisationMedia: MediaItem[] = [
+      { type: 'image', src: 'https://www.dropbox.com/scl/fi/fhjnfhhokd2o5jo4drps1/483223133_18489431182028132_2805891946828374716_n.jpg?rlkey=tahex78tojplff40lcezxltlq&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/8gwzozi2yyqaqitlxdaq5/_2.mp4?rlkey=d23xo5plmq0capbtywotdaj5x&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/lph4x4k0h97v6zfihm934/_1.mp4?rlkey=sd86reh8ptndwjud5xtydjlll&raw=1' },
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/fe8prueo7c6al4oqmsr71/_3.mp4?rlkey=4d1lygqhrg4bm8kyhp1pa2wjg&raw=1' },
@@ -67,7 +67,7 @@ export class HomePageComponent {
       { type: 'video', src: 'https://www.dropbox.com/scl/fi/t1ma91yb8aun7epsbsgwd/_4.mp4?rlkey=01hsgsk2in02wea5v07j16vvm&raw=1' },
     ];
 
-  fromBot = false;
+  fromBot = true;
 
   constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService) { }
 
@@ -88,6 +88,8 @@ export class HomePageComponent {
   }
 
   openEvent(event: any) {
+    this.router.navigate(['/event', event.id]);
+    return
     if (this.telegrammService.initData) {
       this.router.navigate(['/event', event.id]);
     } else {

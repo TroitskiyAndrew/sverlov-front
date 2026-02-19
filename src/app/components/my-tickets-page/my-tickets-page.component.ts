@@ -15,11 +15,13 @@ import { environment } from '../../../environments/environment';
 export class MyTicketsPageComponent {
   tickets = signal<any[]>([]);
   ticketNames = TICKET_NAMES;
-  backUrl = environment.backendUrl
+  backUrl = environment.backendUrl;
+  loading = true;
 
   constructor(private apiService: ApiService, private router: Router) {
     this.apiService.getTickets().then(tickets => {
       this.tickets.set(tickets);
+      this.loading = false;
       console.log('Мои билеты', tickets);
     });
   }

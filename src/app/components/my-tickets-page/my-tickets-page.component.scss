@@ -7,6 +7,15 @@
   padding: 10px;
 }
 
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  color: #d4af37;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 /* список */
 .tickets-list {
   display: flex;
@@ -118,4 +127,33 @@
 
   transition: all 0.3s ease;
       white-space: nowrap;
+}
+
+
+.loader-wrapper {
+  position: relative;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6); // затемнение фона
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  min-height: 50vh;
+}
+
+.gold-loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid transparent;
+  border-top: 6px solid #d4af37;   // золотой
+  border-right: 6px solid #d4af37; // делаем полукруг
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.6));
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

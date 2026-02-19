@@ -44,8 +44,9 @@
   </div>
   <div class="place">
     @if(place()){
-    <a [href]="place().map" target="_blank" rel="noopener noreferrer" class="venue-link">
-      {{ place().name }}
+    {{ place().name }}
+    <a class="ticket-map" [href]="place()?.map" target="_blank">
+      Открыть на карте
     </a>
     }
   </div>
