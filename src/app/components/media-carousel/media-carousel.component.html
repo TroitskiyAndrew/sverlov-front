@@ -2,28 +2,37 @@
 
   <button class="nav left" (click)="scrollLeft()">‹</button>
 
-  <div class="carousel" #carousel>
-    <div class="slide" *ngFor="let item of items">
+  <div #carousel class="carousel">
 
-      <!-- IMAGE -->
-      <img
-        *ngIf="item.type === 'image'"
-        [attr.loading]="'lazy'"
-        [src]="item.src"
-        alt="media"
-      />
+    <div
+      class="media-item"
+      #mediaItem
+      *ngFor="let item of items">
 
-      <!-- VIDEO -->
-      <video
-        *ngIf="item.type === 'video'"
-        #videoEl
-        playsinline
-        controls
-        preload="none"
-        [attr.data-src]="item.src"
-      ></video>
+      <div
+        class="media-inner"
+        (click)="onContainerClick(mediaItem)">
+
+        <img
+          *ngIf="item.type === 'image'"
+          [src]="item.src"
+          loading="lazy"
+          alt=""
+        />
+
+        <video
+          *ngIf="item.type === 'video'"
+          #videoEl
+          [src]="item.src"
+          preload="metadata"
+          playsinline
+          muted>
+        </video>
+
+      </div>
 
     </div>
+
   </div>
 
   <button class="nav right" (click)="scrollRight()">›</button>
