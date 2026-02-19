@@ -99,6 +99,11 @@
       <div class="ticket-info">
         <div class="ticket-title">
           {{ ticketNames[ticket.type] }}
+          @if(selectedOtherEvent()) {
+            <span class="ticket-add">
+          (на два ивента)
+        </span>
+          }
         </div>
 
         <div class="ticket-prices">
