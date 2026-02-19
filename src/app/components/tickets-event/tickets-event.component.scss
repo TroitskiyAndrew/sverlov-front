@@ -151,3 +151,108 @@
   cursor: pointer;
   text-decoration: underline;
 }
+
+.combo-block {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 20px;
+  width: 100%;
+}
+
+.combo-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 500;
+  color: white;
+}
+
+.combo-events {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* карточка */
+.combo-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+
+  background: #0c0c0c;
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.combo-item:hover {
+  border-color: #d4af37;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+}
+
+/* выбранное состояние */
+.combo-item.selected {
+  border-color: #d4af37;
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+  background: linear-gradient(
+    145deg,
+    rgba(212, 175, 55, 0.08),
+    #0c0c0c
+  );
+}
+
+/* кастомный чекбокс */
+.combo-checkbox {
+  min-width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+  border: 2px solid #d4af37;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.3s;
+}
+
+.combo-item.selected .combo-checkbox {
+  background: #d4af37;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+}
+
+.checkmark {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: black;
+}
+
+/* информация */
+.combo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.combo-type {
+  font-size: 14px;
+  color: #d4af37;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.combo-date {
+  font-size: 14px;
+  color: white;
+}
+
+.combo-place {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+}

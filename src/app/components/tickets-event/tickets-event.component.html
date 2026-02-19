@@ -54,6 +54,45 @@
     <img class="schema-image" [src]="event().schema" alt="Схема зала">
   </div>
 
+  @if (otherEvents().length > 0) {
+  <div class="combo-block">
+    <div class="combo-title">
+      Купи билеты на 2-й ивент c 20% скидкой!
+    </div>
+
+    <div class="combo-events">
+      @for (event of otherEvents(); track event.id) {
+      <div class="combo-item" [class.selected]="selectedOtherEvent()?.id === event.id"
+        (click)="selectOtherEvent(event)">
+
+        <div class="combo-checkbox">
+          <div class="checkmark" *ngIf="selectedOtherEvent()?.id === event.id">
+          </div>
+        </div>
+
+        <div class="combo-info">
+          <div class="combo-type">
+            {{ event.type === 0 ? 'СТЕНДАП-КОНЦЕРТ' : 'СТЕНДАП-НЕТВОРКИНГ' }}
+          </div>
+
+          <div class="combo-date">
+            {{ event.date }} {{ event.start }}
+            <span class="combo-place">
+              {{
+              stateService.placesMap().get(event.place)?.name
+              }}
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      }
+    </div>
+  </div>
+  }
+
   <div class="tickets-wrapper">
     <div class="ticket-card" *ngFor="let ticket of tickets()">
 
@@ -63,9 +102,9 @@
         </div>
 
         <div class="ticket-prices">
-          {{ ticket.priceVND }}k VND
+          {{ ticket.priceVND * (selectedOtherEvent() ? 1.8 : 1) }}k VND
           /
-          {{ ticket.priceRub }} ₽
+          {{ ticket.priceRub * (selectedOtherEvent() ? 1.8 : 1) }} ₽
         </div>
 
         <div class="ticket-add">

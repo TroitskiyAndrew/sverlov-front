@@ -41,21 +41,56 @@ export class TicketsEventComponent {
     }
     return this.stateService.placesMap().get(event.place);
   });
+  otherEvents = computed(() => {
+    function toMilliseconds(dateStr: string): number {
+      const [day, month, year] = dateStr.split('.').map(Number);
+
+      const date = new Date(year, month - 1, day); // месяц с 0
+      return date.getTime();
+    }
+    function toMillisecondsToday(): number {
+      const today = new Date();
+
+      const todayDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        0, 0, 0, 0
+      );
+
+      return todayDate.getTime();
+    }
+    const event = this.event();
+    const cities = this.stateService.cities();
+    console.log('Города из state', cities);
+    const city = this.stateService.cities().find(city => city.id === event.city);
+    const otherEvents = city ? city.events.filter((e: any) => e.type !== event.type && toMilliseconds(e.date) >= toMillisecondsToday()) : [];
+    return otherEvents;
+  })
 
   ticketNames = TICKET_NAMES;
   state = signal<any[]>([]);
-  totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0));
-  totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0));
+  totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
+  totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
   showInfo = false;
   phone = environment.phone;
 
 
-  constructor(private stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
+  constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
+
+  selectedOtherEvent = signal<any | null>(null);
+
+  selectOtherEvent(event: any) {
+    if (this.selectedOtherEvent()?.id === event.id) {
+      this.selectedOtherEvent.set(null); // снять выбор
+    } else {
+      this.selectedOtherEvent.set(event);
+    }
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.eventId.set(id);
-    console.log('Текущее событие', this.event());
   }
 
   buyTickets(type: 'VND' | 'RUB') {
@@ -83,7 +118,12 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.payment || '');
-    formData.append('tickets', JSON.stringify(this.state().map(ticket => ({ eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }))));
+    const tickets = this.state().map(ticket => ({ eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }));
+    const otherEvents = this.selectedOtherEvent();
+    if(otherEvents) {
+      tickets.push(...tickets.map(ticket => ({...ticket, eventId: otherEvents.id, price: ticket.price * 0.8})))
+    }
+    formData.append('tickets', JSON.stringify(tickets));
     this.payment = null;
     this.showInfo = true;
     await this.apiService.byTickets(formData);
