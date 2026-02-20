@@ -19,7 +19,9 @@ export class StateService {
     const placesMap = new Map<string, any>();
     places.forEach(place => placesMap.set(place.id, place));
     return placesMap
-  })
+  });
+  user = signal<any>({});
+  isStartPressed = computed(() => this.user().pressedStart);
 
   userTickets = signal<any[]>([]);
   loadingUserTickets = false;
@@ -36,6 +38,8 @@ export class StateService {
   async init() {
     if(this.telegrammService.initData){
       this.updateUserTickets();
+      const user = await this.apiService.getUser(this.telegrammService.user?.id || 0);
+      this.user.set(user || {})
     }
     const cities = await this.apiService.getCities();
     console.log('Города загружены', cities);

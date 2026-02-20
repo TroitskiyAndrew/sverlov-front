@@ -22,6 +22,13 @@ export class ApiService {
       .toPromise()
       .then(res => res || [])
   }
+  async getUser(userId: number): Promise<any | null> {
+    const url = `${environment.backendUrl}/users/${userId}`;
+    return this.http
+      .get<any>(url)
+      .toPromise()
+      .then(res => res || null)
+  }
   async byTickets(formData: FormData): Promise<any[]> {
     const url = `${environment.backendUrl}/tickets`;
     return this.http

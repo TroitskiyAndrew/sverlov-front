@@ -36,10 +36,21 @@
     Назад
   </button>
   } @else if (showInfo) {
-  <div class="instruction">
-    Спасибо за покупку! Ваш платеж обрабатывается. После подтверждения оплаты, бот отправит вам билеты в телеграм. Если
-    у вас возникнут вопросы, напишите в чат с ботом.
+  <div class="instruction white">
+    Спасибо за покупку! После подтверждения оплаты, бот отправит вам билеты в телеграмм
   </div>
+  @if (!stateService.isStartPressed()){
+    <div class="important">
+      Убедись, что нажал кнопку "Старт" в боте
+    </div>
+  }
+  <div class="instruction white">
+    Если у вас возникнут вопросы, напишите в чат с ботом
+  </div>
+  <div class="instruction white">
+    Статус билетов можно проверить в этом разделе:
+  </div>
+
   <button class="buy-button" (click)="myTickets()">
     Мои билеты
   </button>
