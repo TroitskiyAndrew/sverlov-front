@@ -294,3 +294,43 @@
   font-size: 13px;
   color: rgba(255,255,255,0.6);
 }
+
+
+.currency-switch {
+  display: flex;
+  width: 100%;
+  max-width: 320px;
+  background: #111;
+  border: 1px solid #bfa046;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.segment {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  color: #9a9a9a;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+
+  &:hover {
+    background: rgba(191, 160, 70, 0.1);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #bfa046, #e6c76a);
+    color: #000;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* вертикальные разделители */
+.segment:not(:last-child) {
+  border-right: 1px solid rgba(191, 160, 70, 0.25);
+}

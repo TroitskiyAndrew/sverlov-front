@@ -13,7 +13,8 @@ import { environment } from '../../../environments/environment';
   styleUrl: './tickets-event.component.scss'
 })
 export class TicketsEventComponent {
-  payment: 'VND' | 'RUB' | null = null;
+  payment = false;
+  currency: 'VND' | 'RUB' | 'USDT' = 'VND';
   eventId = signal<string | null>(null);
   event = computed(() => {
     const id = this.eventId();
@@ -76,8 +77,12 @@ export class TicketsEventComponent {
   state = signal<any[]>([]);
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
+  totalUSDT = computed(() => this.state().reduce((sum, item) => sum + item.priceUSDT, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
   showInfo = false;
   phone = environment.phone;
+
+  TON = 'UQDl1wOU_E16LB4qecI_IK2pvZVgJcX8qUUlcFXZjjuJze06'
+  TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px'
 
 
   constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
@@ -107,8 +112,8 @@ export class TicketsEventComponent {
     this.eventId.set(id);
   }
 
-  buyTickets(type: 'VND' | 'RUB') {
-    this.payment = type;
+  buyTickets() {
+    this.payment = true;
   }
 
   downloadQR() {
@@ -123,6 +128,16 @@ export class TicketsEventComponent {
       alert('Номер телефона скопирован в буфер обмена!');
     })
   }
+  copyTON() {
+    navigator.clipboard.writeText(this.TON).then(() => {
+      alert('Адрес TON-кошелька скопирован в буфер обмена!');
+    })
+  }
+  copyTRC20() {
+    navigator.clipboard.writeText(this.TRC20).then(() => {
+      alert('Адрес TRC20-кошелька скопирован в буфер обмена!');
+    })
+  }
   async onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
 
@@ -131,21 +146,21 @@ export class TicketsEventComponent {
     const file = input.files[0];
     const formData = new FormData();
     formData.append('image', file);
-    formData.append('currency', this.payment || '');
-    const tickets = this.state().map(ticket => ({add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.payment === 'VND' ? ticket.priceVND : ticket.priceRub }));
+    formData.append('currency', this.currency || '');
+    const tickets = this.state().map(ticket => ({add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : ticket.priceRub }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
       tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '' })));
     }
     formData.append('tickets', JSON.stringify(tickets));
-    this.payment = null;
+    this.payment = false;
     this.showInfo = true;
     this.stateService.loadingUserTickets = true;
     await this.apiService.byTickets(formData).then(() => this.stateService.updateUserTickets());
   }
 
   cancelPayment() {
-    this.payment = null;
+    this.payment = false;
   }
 
   back() {
