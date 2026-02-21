@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StateService } from '../../services/state.service';
 import { TICKET_NAMES } from '../../constants/constants';
@@ -19,15 +19,13 @@ export class TicketsEventComponent {
   event = computed(() => {
     const id = this.eventId();
     const event = this.stateService.eventsMap().get(id || '');
-    if(event){
+    if (event) {
       this.apiService.saveVisit(event.city);
     }
     return event || {};
   });
-  tickets = computed(() => {
-    const event = this.event();
-    return event?.tickets.filter((ticket: any) => ticket.priceVND > 0).reverse() || [];
-  })
+  tickets = signal<any[]>([]);
+
   reel = computed(() => {
     const event = this.event();
     return event.type === 0 ? 'https://www.instagram.com/reel/DStbYzaCPpW/' : 'https://www.instagram.com/reel/DStbYzaCPpW/';
@@ -85,7 +83,7 @@ export class TicketsEventComponent {
   TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px'
 
 
-  constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
+  constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
 
   imageLoaded = signal(false);
 
@@ -107,9 +105,11 @@ export class TicketsEventComponent {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.eventId.set(id);
+    const tickets = await this.apiService.getTicketsCount(id || '');
+    this.tickets.set(tickets.filter((ticket: any) => ticket.priceVND > 0).reverse());
   }
 
   buyTickets() {
@@ -147,7 +147,7 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.currency || '');
-    const tickets = this.state().map(ticket => ({add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : ticket.priceRub }));
+    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : ticket.priceRub }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
       tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '' })));
@@ -186,6 +186,11 @@ export class TicketsEventComponent {
   increase(ticket: any) {
     ticket.eventId = this.eventId();
     const state = this.state();
+    const current = state.filter(stateTicket => stateTicket.type === ticket.type).length;
+    if(ticket.count <= current){
+      alert('Больше нет билетов этой категории :-(');
+      return;
+    }
     state.push(ticket);
     console.log('Текущее состояние билетов', state);
     this.state.set([...state]);

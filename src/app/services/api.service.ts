@@ -50,6 +50,13 @@ export class ApiService {
       .toPromise()
       .then(res => res || null).catch(() => null);
   }
+  async getTicketsCount(eventId: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/counts/${eventId}`;
+    return this.http
+      .get<any>(url)
+      .toPromise()
+      .then(res => res || []).catch(() => []);
+  }
   async saveVisit(city: string): Promise<any | null> {
     const url = `${environment.backendUrl}/cities`;
     return this.http
