@@ -40,9 +40,9 @@
     Спасибо за покупку! После подтверждения оплаты, бот отправит вам билеты в телеграмм
   </div>
   @if (!stateService.isStartPressed()){
-    <div class="important">
-      Убедись, что нажал кнопку "Старт" в боте
-    </div>
+  <div class="important">
+    Убедись, что нажал кнопку "Старт" в боте
+  </div>
   }
   <div class="instruction white">
     Если у вас возникнут вопросы, напишите в чат с ботом
@@ -144,7 +144,12 @@
           <span class="ticket-add">
             (на два шоу)
           </span>
-          }
+        }
+        @if(ticket.count === 0) {
+          <span class="warning">
+            sold out
+          </span>
+        }
         </div>
         <div class="ticket-prices">
           @switch (currency) {
@@ -175,7 +180,7 @@
           {{ getCount(ticket.type) }}
         </div>
 
-        <button class="control-btn" (click)="increase(ticket)">
+        <button class="control-btn" (click)="increase(ticket)" [disabled]="ticket.count === 0">
           +
         </button>
       </div>
