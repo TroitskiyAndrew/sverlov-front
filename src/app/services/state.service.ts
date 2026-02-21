@@ -40,8 +40,8 @@ export class StateService {
       this.updateUserTickets();
       const user = await this.apiService.getUser(this.telegrammService.user?.id || 0);
       this.user.set(user || {});
-      console.log('admin', this.user().admin)
     }
+    console.log('admin', this.user().admin)
     const cities = await this.apiService.getCities();
     console.log('Города загружены', cities);
     this.cities.set(cities);
