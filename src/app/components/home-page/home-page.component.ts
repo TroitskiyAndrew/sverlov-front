@@ -88,6 +88,8 @@ export class HomePageComponent {
   }
 
   openEvent(event: any) {
+    this.router.navigate(['/event', event.id]);
+    return;
     if (this.telegrammService.initData) {
       this.router.navigate(['/event', event.id]);
     } else {
