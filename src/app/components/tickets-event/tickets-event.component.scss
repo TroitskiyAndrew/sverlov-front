@@ -32,6 +32,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.ticket-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Золотой спиннер */
@@ -39,7 +47,7 @@
   width: 60px;
   height: 60px;
   border: 6px solid transparent;
-  border-top: 6px solid #d4af37;   // золотой
+  border-top: 6px solid #d4af37; // золотой
   border-right: 6px solid #d4af37; // делаем полукруг
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -260,11 +268,7 @@
 .combo-item.selected {
   border-color: #d4af37;
   box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
-  background: linear-gradient(
-    145deg,
-    rgba(212, 175, 55, 0.08),
-    #0c0c0c
-  );
+  background: linear-gradient(145deg, rgba(212, 175, 55, 0.08), #0c0c0c);
 }
 
 /* кастомный чекбокс */
@@ -315,9 +319,8 @@
 
 .combo-place {
   font-size: 13px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
 }
-
 
 .currency-switch {
   display: flex;
@@ -358,5 +361,3 @@
 .segment:not(:last-child) {
   border-right: 1px solid rgba(191, 160, 70, 0.25);
 }
-
-
