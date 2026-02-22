@@ -19,12 +19,14 @@ export class TicketsEventComponent {
   tickets = computed(() => {
     const isAdmin = this.stateService.isAdmin();
     const tickets = this.event()?.tickets || [];
-    if(isAdmin){
+    if (isAdmin) {
       return tickets;
     }
     return tickets.filter((ticket: any) => ticket.type > 0)
   });
 
+  sales = signal<any[]>([])
+  totalSales = signal<any>({})
   reel = computed(() => {
     const event = this.event();
     return event.type === 0 ? 'https://www.instagram.com/reel/DStbYzaCPpW/' : 'https://www.instagram.com/reel/DStbYzaCPpW/';
@@ -79,10 +81,10 @@ export class TicketsEventComponent {
   phone = environment.phone;
 
   TON = 'UQDl1wOU_E16LB4qecI_IK2pvZVgJcX8qUUlcFXZjjuJze06'
-  TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px'
+  TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px';
+  showSales = false;
 
-
-  constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
+  constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   imageLoaded = signal(false);
   ticketsLoaded = signal(false);
@@ -108,12 +110,34 @@ export class TicketsEventComponent {
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     const event = this.stateService.eventsMap().get(id || '');
-    if(event){
-      this.event.set({...event, tickets: []});
+    if (event) {
+      this.event.set({ ...event, tickets: [] });
     }
     const dbEvent = await this.apiService.getEvent(id || '');
     this.apiService.saveVisit(dbEvent.city);
-    this.event.set(dbEvent)
+    this.event.set(dbEvent);
+    if (this.stateService.isAdmin()) {
+      const soldTickets = await this.apiService.getSales(id || '');
+      const sales = dbEvent.tickets.map((ticket: any) => {
+        const soldTicketsThisType = soldTickets.filter((sale: any) => sale.type === ticket.type);
+        return {
+          type: ticket.type,
+          count: soldTicketsThisType.length,
+          totalRub: soldTicketsThisType.filter((sale: any) => sale.currency === 'RUB').reduce((acc: number, sale: any) => acc + sale.price, 0),
+          totalVND: soldTicketsThisType.filter((sale: any) => sale.currency === 'VND').reduce((acc: number, sale: any) => acc + sale.price, 0),
+          totalUSDT: soldTicketsThisType.filter((sale: any) => sale.currency === 'USDT').reduce((acc: number, sale: any) => acc + sale.price, 0),
+        }
+      })
+      const totalSales = {
+        count: soldTickets.length,
+        totalRub: soldTickets.filter((sale: any) => sale.currency === 'RUB').reduce((acc: number, sale: any) => acc + sale.price, 0),
+        totalVND: soldTickets.filter((sale: any) => sale.currency === 'VND').reduce((acc: number, sale: any) => acc + sale.price, 0),
+        totalUSDT: soldTickets.filter((sale: any) => sale.currency === 'USDT').reduce((acc: number, sale: any) => acc + sale.price, 0),
+      }
+      this.totalSales.set(totalSales)
+      this.sales.set(sales);
+
+    }
     this.ticketsLoaded.set(true);
 
   }
@@ -153,7 +177,7 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.currency || '');
-    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : ticket.priceRub }));
+    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
       tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '' })));
@@ -193,7 +217,7 @@ export class TicketsEventComponent {
     ticket.eventId = this.event().id;
     const state = this.state();
     const current = state.filter(stateTicket => stateTicket.type === ticket.type).length;
-    if(ticket.count <= current){
+    if (ticket.count <= current) {
       alert('Больше нет билетов этой категории :-(');
       return;
     }

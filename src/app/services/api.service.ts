@@ -85,6 +85,17 @@ export class ApiService {
         return null
       });
   }
+  async getSales(eventId: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/sales/${eventId}`;
+    return this.http
+      .get<any>(url)
+      .toPromise()
+      .then(res => res || [])
+      .catch(() => {
+        alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
+        return [null]
+      });
+  }
   async saveVisit(city: string): Promise<any | null> {
     const url = `${environment.backendUrl}/cities`;
     return this.http

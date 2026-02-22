@@ -83,7 +83,7 @@
       (load)="onImageLoad()" (error)="onImageError()">
   </div>
 
-  @if (otherEvents().length > 0) {
+  @if (otherEvents().length > 0 && !showSales) {
   <div class="combo-block">
     <div class="combo-title">
       Купи билеты на 2-е шоу c 20% скидкой!
@@ -121,6 +121,51 @@
     </div>
   </div>
   }
+  @if (stateService.isAdmin()) {
+    <button class="buy-button" (click)="showSales = !showSales">
+    {{showSales ? 'Билеты' : 'Продажи'}}
+  </button>
+  }
+  @if(showSales){
+  <div class="tickets-wrapper">
+    <div class="ticket-card" *ngFor="let sale of sales()">
+
+      <div class="ticket-info">
+        <div class="ticket-title">
+          {{ ticketNames[sale.type] }}
+          <span class="warning">
+            {{sale.count}}
+          </span>
+        </div>
+        <div class="ticket-prices">
+          {{ sale.totalVND }}k VND /
+          {{ sale.totalRub }} руб /
+          {{ sale.totalUSDT }} USDT
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="ticket-card">
+
+      <div class="ticket-info">
+        <div class="ticket-title">
+          Итого:
+          <span class="warning">
+            {{totalSales().count}}
+          </span>
+        </div>
+        <div class="ticket-prices">
+          {{ totalSales().totalVND }}k VND /
+          {{ totalSales().totalRub }} руб /
+          {{ totalSales().totalUSDT }} USDT
+        </div>
+
+      </div>
+
+    </div>
+  } @else {
 
   <div class="tickets-wrapper">
     <div class="currency-switch">
@@ -141,57 +186,57 @@
       <div class="gold-spinner"></div>
     </div>
     } @else {
-      <div class="ticket-card" *ngFor="let ticket of tickets()">
+    <div class="ticket-card" *ngFor="let ticket of tickets()">
 
-        <div class="ticket-info">
-          <div class="ticket-title">
-            {{ ticketNames[ticket.type] }}
-            @if(selectedOtherEvent()) {
-            <span class="ticket-add">
-              (на два шоу)
-            </span>
+      <div class="ticket-info">
+        <div class="ticket-title">
+          {{ ticketNames[ticket.type] }}
+          @if(selectedOtherEvent()) {
+          <span class="ticket-add">
+            (на два шоу)
+          </span>
           }
           @if(ticket.count === 0) {
-            <span class="warning">
-              sold out
-            </span>
+          <span class="warning">
+            sold out
+          </span>
           }
-          </div>
-          <div class="ticket-prices">
-            @switch (currency) {
-            @case ('VND') {
-            {{ ticket.priceVND * (selectedOtherEvent() ? 1.8 : 1) }}k VND
-            }
-            @case ('RUB') {
-            {{ ticket.priceRub * (selectedOtherEvent() ? 1.8 : 1) }} ₽
-            }
-            @case ('USDT') {
-            {{ ticket.priceUSDT * (selectedOtherEvent() ? 1.8 : 1) }} USDT
-            }
-            }
+        </div>
+        <div class="ticket-prices">
+          @switch (currency) {
+          @case ('VND') {
+          {{ ticket.priceVND * (selectedOtherEvent() ? 1.8 : 1) }}k VND
+          }
+          @case ('RUB') {
+          {{ ticket.priceRub * (selectedOtherEvent() ? 1.8 : 1) }} ₽
+          }
+          @case ('USDT') {
+          {{ ticket.priceUSDT * (selectedOtherEvent() ? 1.8 : 1) }} USDT
+          }
+          }
 
-          </div>
-
-          <div class="ticket-add">
-            {{ ticket.add }}
-          </div>
         </div>
 
-        <div class="ticket-controls">
-          <button class="control-btn" (click)="decrease(ticket)" [disabled]="getCount(ticket.type) === 0">
-            −
-          </button>
-
-          <div class="ticket-count">
-            {{ getCount(ticket.type) }}
-          </div>
-
-          <button class="control-btn" (click)="increase(ticket)" [disabled]="ticket.count === 0">
-            +
-          </button>
+        <div class="ticket-add">
+          {{ ticket.add }}
         </div>
-
       </div>
+
+      <div class="ticket-controls">
+        <button class="control-btn" (click)="decrease(ticket)" [disabled]="getCount(ticket.type) === 0">
+          −
+        </button>
+
+        <div class="ticket-count">
+          {{ getCount(ticket.type) }}
+        </div>
+
+        <button class="control-btn" (click)="increase(ticket)" [disabled]="ticket.count === 0">
+          +
+        </button>
+      </div>
+
+    </div>
     }
   </div>
 
@@ -208,14 +253,16 @@
     }
     }
   </button>
+  }
   <button class="buy-button" (click)="back()">
     Назад
   </button>
+
   }
 </div>
 
 } @else {
-  <div class="loader">
-      <div class="gold-spinner"></div>
-    </div>
+<div class="loader">
+  <div class="gold-spinner"></div>
+</div>
 }
