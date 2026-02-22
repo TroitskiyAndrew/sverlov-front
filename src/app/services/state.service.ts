@@ -22,6 +22,7 @@ export class StateService {
   });
   user = signal<any>({});
   isStartPressed = computed(() => this.user().pressedStart);
+  isAdmin = computed(() => this.user().admin || false);
 
   userTickets = signal<any[]>([]);
   loadingUserTickets = false;
@@ -41,7 +42,6 @@ export class StateService {
       const user = await this.apiService.getUser(this.telegrammService.user?.id || 0);
       this.user.set(user || {});
     }
-    console.log('admin', this.user().admin)
     const cities = await this.apiService.getCities();
     console.log('Города загружены', cities);
     this.cities.set(cities);

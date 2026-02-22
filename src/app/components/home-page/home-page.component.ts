@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TelegrammService } from '../../services/telegramm.service';
 import { MediaCarouselComponent, MediaItem } from "../media-carousel/media-carousel.component";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home-page',
@@ -88,9 +89,7 @@ export class HomePageComponent {
   }
 
   openEvent(event: any) {
-    this.router.navigate(['/event', event.id]);
-    return;
-    if (this.telegrammService.initData) {
+    if (this.telegrammService.initData || !environment.production) {
       this.router.navigate(['/event', event.id]);
     } else {
       window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=EVENT_SPLIT_${event.id}`, '_blank');
