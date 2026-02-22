@@ -74,7 +74,7 @@
   </div>
   <div class="schema">
     @if (!imageLoaded()) {
-    <div class="schema-loader">
+    <div class="loader">
       <div class="gold-spinner"></div>
     </div>
     }
@@ -136,57 +136,63 @@
         USDT
       </button>
     </div>
-    <div class="ticket-card" *ngFor="let ticket of tickets()">
-
-      <div class="ticket-info">
-        <div class="ticket-title">
-          {{ ticketNames[ticket.type] }}
-          @if(selectedOtherEvent()) {
-          <span class="ticket-add">
-            (на два шоу)
-          </span>
-        }
-        @if(ticket.count === 0) {
-          <span class="warning">
-            sold out
-          </span>
-        }
-        </div>
-        <div class="ticket-prices">
-          @switch (currency) {
-          @case ('VND') {
-          {{ ticket.priceVND * (selectedOtherEvent() ? 1.8 : 1) }}k VND
-          }
-          @case ('RUB') {
-          {{ ticket.priceRub * (selectedOtherEvent() ? 1.8 : 1) }} ₽
-          }
-          @case ('USDT') {
-          {{ ticket.priceUSDT * (selectedOtherEvent() ? 1.8 : 1) }} USDT
-          }
-          }
-
-        </div>
-
-        <div class="ticket-add">
-          {{ ticket.add }}
-        </div>
-      </div>
-
-      <div class="ticket-controls">
-        <button class="control-btn" (click)="decrease(ticket)" [disabled]="getCount(ticket.type) === 0">
-          −
-        </button>
-
-        <div class="ticket-count">
-          {{ getCount(ticket.type) }}
-        </div>
-
-        <button class="control-btn" (click)="increase(ticket)" [disabled]="ticket.count === 0">
-          +
-        </button>
-      </div>
-
+    @if (!ticketsLoaded()) {
+    <div class="loader">
+      <div class="gold-spinner"></div>
     </div>
+    } @else {
+      <div class="ticket-card" *ngFor="let ticket of tickets()">
+
+        <div class="ticket-info">
+          <div class="ticket-title">
+            {{ ticketNames[ticket.type] }}
+            @if(selectedOtherEvent()) {
+            <span class="ticket-add">
+              (на два шоу)
+            </span>
+          }
+          @if(ticket.count === 0) {
+            <span class="warning">
+              sold out
+            </span>
+          }
+          </div>
+          <div class="ticket-prices">
+            @switch (currency) {
+            @case ('VND') {
+            {{ ticket.priceVND * (selectedOtherEvent() ? 1.8 : 1) }}k VND
+            }
+            @case ('RUB') {
+            {{ ticket.priceRub * (selectedOtherEvent() ? 1.8 : 1) }} ₽
+            }
+            @case ('USDT') {
+            {{ ticket.priceUSDT * (selectedOtherEvent() ? 1.8 : 1) }} USDT
+            }
+            }
+
+          </div>
+
+          <div class="ticket-add">
+            {{ ticket.add }}
+          </div>
+        </div>
+
+        <div class="ticket-controls">
+          <button class="control-btn" (click)="decrease(ticket)" [disabled]="getCount(ticket.type) === 0">
+            −
+          </button>
+
+          <div class="ticket-count">
+            {{ getCount(ticket.type) }}
+          </div>
+
+          <button class="control-btn" (click)="increase(ticket)" [disabled]="ticket.count === 0">
+            +
+          </button>
+        </div>
+
+      </div>
+    }
   </div>
 
   <button class="buy-button" (click)="buyTickets()" [disabled]="state().length === 0">
@@ -208,4 +214,8 @@
   }
 </div>
 
+} @else {
+  <div class="loader">
+      <div class="gold-spinner"></div>
+    </div>
 }

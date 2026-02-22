@@ -15,16 +15,15 @@ import { environment } from '../../../environments/environment';
 export class TicketsEventComponent {
   payment = false;
   currency: 'VND' | 'RUB' | 'USDT' = 'VND';
-  eventId = signal<string | null>(null);
-  event = computed(() => {
-    const id = this.eventId();
-    const event = this.stateService.eventsMap().get(id || '');
-    if (event) {
-      this.apiService.saveVisit(event.city);
+  event = signal<any | null>(null);
+  tickets = computed(() => {
+    const isAdmin = this.stateService.isAdmin();
+    const tickets = this.event()?.tickets || [];
+    if(isAdmin){
+      return tickets;
     }
-    return event || {};
+    return tickets.filter((ticket: any) => ticket.type > 0)
   });
-  tickets = signal<any[]>([]);
 
   reel = computed(() => {
     const event = this.event();
@@ -86,6 +85,7 @@ export class TicketsEventComponent {
   constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) {}
 
   imageLoaded = signal(false);
+  ticketsLoaded = signal(false);
 
   onImageLoad() {
     this.imageLoaded.set(true);
@@ -107,9 +107,15 @@ export class TicketsEventComponent {
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    this.eventId.set(id);
-    const tickets = await this.apiService.getTicketsCount(id || '');
-    this.tickets.set(tickets.filter((ticket: any) => ticket.priceVND > 0).reverse());
+    const event = this.stateService.eventsMap().get(id || '');
+    if(event){
+      this.event.set({...event, tickets: []});
+    }
+    const dbEvent = await this.apiService.getEvent(id || '');
+    this.apiService.saveVisit(dbEvent.city);
+    this.event.set(dbEvent)
+    this.ticketsLoaded.set(true);
+
   }
 
   buyTickets() {
@@ -184,7 +190,7 @@ export class TicketsEventComponent {
     this.state.set([...state]);
   }
   increase(ticket: any) {
-    ticket.eventId = this.eventId();
+    ticket.eventId = this.event().id;
     const state = this.state();
     const current = state.filter(stateTicket => stateTicket.type === ticket.type).length;
     if(ticket.count <= current){

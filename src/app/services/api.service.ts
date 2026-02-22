@@ -74,15 +74,15 @@ export class ApiService {
         return null
       });
   }
-  async getTicketsCount(eventId: string): Promise<any | null> {
-    const url = `${environment.backendUrl}/counts/${eventId}`;
+  async getEvent(eventId: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/event/${eventId}`;
     return this.http
       .get<any>(url)
       .toPromise()
-      .then(res => res || [])
+      .then(res => res || null)
       .catch(() => {
         alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
-        return []
+        return null
       });
   }
   async saveVisit(city: string): Promise<any | null> {
