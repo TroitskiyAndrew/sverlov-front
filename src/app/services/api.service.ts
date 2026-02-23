@@ -106,4 +106,14 @@ export class ApiService {
         return null
       });
   }
+  async saveSource(source: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/users`;
+    return this.http
+      .post<any>(url, {source})
+      .toPromise()
+      .then(res => res || null).catch(() => {
+        alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
+        return null
+      });
+  }
 }

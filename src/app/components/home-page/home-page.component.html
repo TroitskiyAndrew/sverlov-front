@@ -38,7 +38,7 @@
     <app-instagram-reels-carousel [reels]="reels"></app-instagram-reels-carousel>
   </div>
   <button class="important buy-button" (click)="scrollTo('tour')">
-        Посмотреть билеты
+    Посмотреть билеты
   </button>
   <div class="text title">
     Этот легендарик выступит с двумя разными по формату шоу:
@@ -57,7 +57,7 @@
     <app-media-carousel [items]="concertMedia"></app-media-carousel>
   </div>
   <button class="important buy-button" (click)="scrollTo('tour')">
-        Когда в моем городе?
+    Когда в моем городе?
   </button>
   <div id="improvisation" class="improvisation">
     <div class="title">Стендап-импровизация с залом</div>
@@ -85,7 +85,7 @@
       Внимание! При покупке билетов сразу на 2 шоу скидка 20%
     </div>
 
-
+    @if(stateService.cities().length){
     <div class="city-block" *ngFor="let city of stateService.cities()">
 
       <span class="city-title">
@@ -113,6 +113,11 @@
       </div>
 
     </div>
+    } @else {
+    <div class="loader">
+      <div class="gold-spinner"></div>
+    </div>
+    }
   </div>
 
 </div>
