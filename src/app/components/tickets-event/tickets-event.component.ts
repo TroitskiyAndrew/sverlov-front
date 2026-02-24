@@ -203,12 +203,7 @@ export class TicketsEventComponent {
   goToBot() {
     const tg = (window as any).Telegram?.WebApp;
 
-    tg.MainButton.setText('Начать диалог');
-    tg.MainButton.show();
-
-    tg.MainButton.onClick(() => {
-      tg.sendData(JSON.stringify({ action: 'start' }));
-    });
+    tg.openTelegramLink('https://t.me/sverlov_vietnam_2026_bot')
   }
 
   getCount(type: number): number {
