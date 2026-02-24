@@ -35,7 +35,7 @@
   <button class="buy-button" (click)="cancelPayment()">
     Назад
   </button>
-  } @else if (showInfo) {
+  } @else if (showInfo || stateService.isAdmin()) {
   <div class="instruction white">
     Спасибо за покупку! После подтверждения оплаты, бот отправит вам билеты в телеграмм
   </div>
