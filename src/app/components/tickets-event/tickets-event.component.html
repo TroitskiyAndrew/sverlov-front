@@ -35,21 +35,16 @@
   <button class="buy-button" (click)="cancelPayment()">
     Назад
   </button>
-  } @else if (showInfo || stateService.user().id === 480144364) {
+  } @else if (showInfo) {
   <div class="instruction white">
     Спасибо за покупку! После подтверждения оплаты, бот отправит вам билеты в телеграмм
   </div>
   @if (!stateService.isStartPressed()){
   <div class="important">
-    Убедись, что нажал кнопку "Старт" в боте
-  </div>
-  }
-  @if (stateService.user().id === 480144364){
-  <div class="important">
     Начни диалог с ботом, чтобы он смог прислать тебе билеты
   </div>
-  <button class="buy-button important" (click)="goToBot()">
-    Начни диалог с ботом, чтобы он смог отправит
+  <button class="buy-button" (click)="goToBot()">
+    Перейти в бот
   </button>
   }
   <div class="instruction white">

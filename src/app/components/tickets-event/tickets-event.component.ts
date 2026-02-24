@@ -203,7 +203,7 @@ export class TicketsEventComponent {
   goToBot() {
     const tg = (window as any).Telegram?.WebApp;
 
-    tg.MainButton.setText('Начать');
+    tg.MainButton.setText('Начать диалог');
     tg.MainButton.show();
 
     tg.MainButton.onClick(() => {
