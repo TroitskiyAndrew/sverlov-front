@@ -177,7 +177,7 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.currency || '');
-    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub, combo: false  }));
+    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub, combo: false }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
       tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '', combo: true })));
@@ -198,6 +198,17 @@ export class TicketsEventComponent {
   }
   myTickets() {
     this.router.navigate(['my-tickets']);
+  }
+
+  goToBot() {
+    const tg = (window as any).Telegram?.WebApp;
+
+    tg.MainButton.setText('Начать');
+    tg.MainButton.show();
+
+    tg.MainButton.onClick(() => {
+      tg.sendData(JSON.stringify({ action: 'start' }));
+    });
   }
 
   getCount(type: number): number {

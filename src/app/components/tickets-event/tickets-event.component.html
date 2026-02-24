@@ -35,7 +35,7 @@
   <button class="buy-button" (click)="cancelPayment()">
     Назад
   </button>
-  } @else if (showInfo) {
+  } @else if (showInfo || stateService.user().id === 480144364) {
   <div class="instruction white">
     Спасибо за покупку! После подтверждения оплаты, бот отправит вам билеты в телеграмм
   </div>
@@ -43,6 +43,14 @@
   <div class="important">
     Убедись, что нажал кнопку "Старт" в боте
   </div>
+  }
+  @if (stateService.user().id === 480144364){
+  <div class="important">
+    Начни диалог с ботом, чтобы он смог прислать тебе билеты
+  </div>
+  <button class="buy-button important" (click)="goToBot()">
+    Начни диалог с ботом, чтобы он смог отправит
+  </button>
   }
   <div class="instruction white">
     Если у вас возникнут вопросы, напишите в чат с ботом
@@ -122,7 +130,7 @@
   </div>
   }
   @if (stateService.isAdmin()) {
-    <button class="buy-button" (click)="showSales = !showSales">
+  <button class="buy-button" (click)="showSales = !showSales">
     {{showSales ? 'Билеты' : 'Продажи'}}
   </button>
   }
@@ -149,22 +157,22 @@
   </div>
   <div class="ticket-card">
 
-      <div class="ticket-info">
-        <div class="ticket-title">
-          Итого:
-          <span class="warning">
-            {{totalSales().count}}
-          </span>
-        </div>
-        <div class="ticket-prices">
-          {{ totalSales().totalVND }}k VND /
-          {{ totalSales().totalRub }} руб /
-          {{ totalSales().totalUSDT }} USDT
-        </div>
-
+    <div class="ticket-info">
+      <div class="ticket-title">
+        Итого:
+        <span class="warning">
+          {{totalSales().count}}
+        </span>
+      </div>
+      <div class="ticket-prices">
+        {{ totalSales().totalVND }}k VND /
+        {{ totalSales().totalRub }} руб /
+        {{ totalSales().totalUSDT }} USDT
       </div>
 
     </div>
+
+  </div>
   } @else {
 
   <div class="tickets-wrapper">
