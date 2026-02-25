@@ -110,6 +110,9 @@
     <div> {{event().start}}</div>
     <div class="adults"> 18+</div>
   </div>
+  <div class="event">
+    <div class="white"> {{eventNames[event().type]}}</div>
+  </div>
   <div class="place">
     @if(place()){
     {{ place().name }}
@@ -147,7 +150,7 @@
 
         <div class="combo-info">
           <div class="combo-type">
-            {{ event.type === 0 ? 'Стендап-концерт' : 'Стендап-импровизация' }}
+            {{ eventNames[event.type] }}
           </div>
 
           <div class="combo-date">
