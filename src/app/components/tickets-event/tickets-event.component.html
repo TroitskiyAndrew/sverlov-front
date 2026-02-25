@@ -50,6 +50,9 @@
   <div class="instruction white">
     Если у вас возникнут вопросы, напишите в чат с ботом
   </div>
+   <button class="buy-button" (click)="goToBot()">
+    Перейти в чат
+  </button>
   <div class="instruction white">
     Статус билетов можно проверить в этом разделе:
   </div>
@@ -58,6 +61,9 @@
     Мои билеты
   </button>
   <button class="buy-button" (click)="back()">
+    Назад
+  </button>
+  <button class="buy-button" (click)="goHome()">
     На главную страницу
   </button>
   } @else if(cashSale) {
@@ -310,7 +316,7 @@
   </button>
   }
 
-  <button class="buy-button" (click)="back()">
+  <button class="buy-button" (click)="goHome(true)">
     Назад
   </button>
 

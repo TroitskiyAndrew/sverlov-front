@@ -196,7 +196,7 @@ export class TicketsEventComponent {
     }
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = false;
-    this.showInfo = true;
+    this.showInfo = false;
     this.stateService.loadingUserTickets = true;
     await this.apiService.byTickets(formData).then(() => this.stateService.updateUserTickets());
   }
@@ -210,7 +210,10 @@ export class TicketsEventComponent {
   }
 
   back() {
-    this.router.navigate([''], { fragment: 'tour' });
+    this.showInfo = false;
+  }
+  goHome(tour = false) {
+    this.router.navigate([''], tour ? { fragment: 'tour' } : {});
   }
   myTickets() {
     this.router.navigate(['my-tickets']);
