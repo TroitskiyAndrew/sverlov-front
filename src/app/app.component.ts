@@ -19,20 +19,24 @@ export class AppComponent {
 
   ngOnInit() {
     if (this.telegrammService.startParam) {
-      const [param, value] = this.telegrammService.startParam.split('_SPLIT_');
-      switch (param) {
-        case 'EVENT':
-          this.router.navigate(['event', value]);
-          break;
-        case 'TICKET':
-          this.router.navigate(['check-ticket', value]);
-          break;
-        case 'SOURCE':
-          this.apiService.saveSource(value);
-          break;
+      const params = this.telegrammService.startParam.split('_SEP_');
+      for(const paramStr of params) {
+        const [param, value] = paramStr.split('_SPLIT_');
+        switch (param) {
+          case 'EVENT':
+            this.router.navigate(['event', value]);
+            break;
+          case 'TICKET':
+            this.router.navigate(['check-ticket', value]);
+            break;
+          case 'SOURCE':
+            this.apiService.saveSource(value);
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+
       }
     }
   }
