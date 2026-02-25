@@ -206,6 +206,18 @@ export class TicketsEventComponent {
     tg.openTelegramLink('https://t.me/sverlov_vietnam_2026_bot')
   }
 
+  buyByCash() {
+    const cashierUsername = this.event().cashTaker || 's_gruzdova';
+    const url = `https://t.me/${cashierUsername}`;
+
+    if ((window as any)?.Telegram?.WebApp) {
+      (window as any).Telegram.WebApp.openTelegramLink(url);
+    } else {
+      // fallback если открыто не внутри Telegram
+      window.open(url, '_blank');
+    }
+  }
+
   getCount(type: number): number {
     return this.state().filter((item: any) => item.type === type).length;
   }
