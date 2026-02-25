@@ -62,7 +62,6 @@ export class EventPageComponent {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.eventId.set(id);
-    console.log('Текущее событие', this.event());
 
   }
 

@@ -62,8 +62,6 @@ export class TicketsEventComponent {
       return todayDate.getTime();
     }
     const event = this.event();
-    const cities = this.stateService.cities();
-    console.log('Города из state', cities);
     const city = this.stateService.cities().find(city => city.id === event.city);
     const otherEvents = city ? city.events.filter((e: any) => e.type !== event.type && toMilliseconds(e.date) >= toMillisecondsToday()) : [];
     return otherEvents;
@@ -118,8 +116,6 @@ export class TicketsEventComponent {
     const dbEvent = await this.apiService.getEvent(id || '');
     this.apiService.saveVisit(dbEvent.city);
     this.event.set(dbEvent);
-    console.log('dbEvent.cashiers', dbEvent.cashiers)
-    console.log('this.stateService.user()', this.stateService.user())
     if ((dbEvent.cashiers || []).includes(this.stateService.user()?.userId)) {
       this.isCashier.set(true);
     }
@@ -290,7 +286,6 @@ export class TicketsEventComponent {
       return;
     }
     state.push(ticket);
-    console.log('Текущее состояние билетов', state);
     this.state.set([...state]);
   }
 

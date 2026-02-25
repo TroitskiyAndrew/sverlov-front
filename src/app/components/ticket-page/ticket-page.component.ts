@@ -21,7 +21,6 @@ export class TicketPageComponent {
     const id = this.route.snapshot.paramMap.get('id');
     this.apiService.getTicket(id || '').then(ticket => {
       this.ticket.set(ticket);
-      console.log('Билет', ticket);
     })
   }
   back() {

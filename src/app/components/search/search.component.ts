@@ -58,7 +58,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     ).subscribe({
       next: data => {
-        console.log('data', data)
         this.results = data;
       },
       error: err => {

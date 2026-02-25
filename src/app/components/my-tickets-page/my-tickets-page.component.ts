@@ -26,7 +26,6 @@ export class MyTicketsPageComponent {
     if(!ticket.confirmed){
       return;
     }
-    console.log('Открыть билет', ticket);
   }
 
 }
