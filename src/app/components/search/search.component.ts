@@ -58,7 +58,7 @@ export class SearchComponent implements OnInit, OnDestroy {
 
     ).subscribe({
       next: data => {
-        console.log('data',data)
+        console.log('data', data)
         this.results = data;
       },
       error: err => {
@@ -70,19 +70,15 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   clearInput() {
-  this.searchControl.setValue('');
-  this.results = [];
-  this.userSelected.emit(null);
-}
+    this.searchControl.setValue('');
+    this.results = [];
+    this.userSelected.emit(null);
+  }
 
   selectItem(item: any) {
     this.searchControl.setValue(item.name, { emitEvent: false });
     this.results = [];
 
-    // 👉 для Telegram Mini App можно закрывать клавиатуру
-    if ((window as any).Telegram?.WebApp) {
-      (window as any).Telegram.WebApp.close();
-    }
     this.userSelected.emit(item.userId);
   }
 
