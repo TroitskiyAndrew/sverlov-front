@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
+import { Observable, retryWhen, scan, mergeMap, timer, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -115,5 +116,40 @@ export class ApiService {
         alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
         return null
       });
+  }
+
+  async byForCash(body: any): Promise<any[]> {
+    const url = `${environment.backendUrl}/cash`;
+    return this.http
+      .post<any[]>(url, body)
+      .toPromise()
+      .then(res => res || []).catch(() => {
+        alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
+        return []
+      });
+  }
+
+    findUsers(query: string): Observable<any[]> {
+    const url = `${environment.backendUrl}/find/${query}`;
+    return this.http
+      .get<any>(url).pipe(
+      retryWhen(errors =>
+        errors.pipe(
+          scan((retryCount, error: HttpErrorResponse) => {
+            if (error.status !== 429 || retryCount >= 3) {
+              throw error;
+            }
+            return retryCount + 1;
+          }, 0),
+          mergeMap(retryCount =>
+            timer(500 * Math.pow(2, retryCount)) // 500ms → 1000ms → 2000ms
+          )
+        )
+      ),
+      catchError(err => {
+        console.error('Search error:', err);
+        return throwError(() => err);
+      })
+    );
   }
 }

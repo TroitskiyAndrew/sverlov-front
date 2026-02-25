@@ -60,6 +60,43 @@
   <button class="buy-button" (click)="back()">
     На главную страницу
   </button>
+  } @else if(cashSale) {
+  <app-search (userSelected)="onUserSelected($event)"></app-search>
+  <label class="gold-checkbox">
+    <input type="checkbox" [(ngModel)]="gotMoney" />
+    <span class="checkmark"></span>
+    <span class="label-text">Я получил
+      @switch (currency) {
+      @case ('VND') {
+      {{ totalVND() }}k VND
+      }
+      @case ('RUB') {
+      {{ totalRub() }} ₽
+      }
+      @case ('USDT') {
+      {{ totalUSDT() }} USDT
+      }
+      }
+    </span>
+  </label>
+
+  @if(selectedUser) {
+  <button class="buy-button" (click)="sellForCash(true)">
+    Отправить билеты Гостю
+  </button>
+  } @else {
+  <label class="gold-checkbox">
+    <input type="checkbox" [(ngModel)]="isInside" />
+    <span class="checkmark"></span>
+    <span class="label-text">Гость прошел в зал</span>
+  </label>
+  <button class="buy-button" (click)="sellForCash(false)">
+    Оформить билеты
+  </button>
+  }
+  <button class="buy-button" (click)="cancelSellByCash()">
+    Назад
+  </button>
   } @else {
 
   <div class="timing">
@@ -259,6 +296,12 @@
   <button class="buy-button" (click)="buyByCash()">
     Купить за наличные
   </button>
+  @if (isCashier() && state().length) {
+  <button class="buy-button" (click)="sellByCash()">
+    Продать за наличные
+  </button>
+
+  }
   <div class="important">
     Чтобы задать любой вопрос, напишите в чат с ботом
   </div>

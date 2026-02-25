@@ -360,3 +360,61 @@
 .segment:not(:last-child) {
   border-right: 1px solid rgba(191, 160, 70, 0.25);
 }
+
+
+.gold-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* скрываем нативный checkbox */
+.gold-checkbox input {
+  display: none;
+}
+
+/* кастомная коробка */
+.checkmark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+
+  background: #0f0f0f;
+  border: 2px solid #d4af37;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+/* галочка */
+.checkmark::after {
+  content: "";
+  width: 10px;
+  height: 6px;
+  border: solid #d4af37;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+/* когда выбран */
+.gold-checkbox input:checked + .checkmark {
+  background: rgba(212, 175, 55, 0.15);
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+}
+
+.gold-checkbox input:checked + .checkmark::after {
+  opacity: 1;
+}
+
+/* текст */
+.label-text {
+  color: #ffffff;
+  font-size: 16px;
+}

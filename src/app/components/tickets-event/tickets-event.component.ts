@@ -5,10 +5,12 @@ import { TICKET_NAMES } from '../../constants/constants';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment';
+import { SearchComponent } from "../search/search.component";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-tickets-event',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, SearchComponent],
   templateUrl: './tickets-event.component.html',
   styleUrl: './tickets-event.component.scss'
 })
@@ -83,11 +85,16 @@ export class TicketsEventComponent {
   TON = 'UQDl1wOU_E16LB4qecI_IK2pvZVgJcX8qUUlcFXZjjuJze06'
   TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px';
   showSales = false;
+  cashSale = false;
+  selectedUser = null;
+  isInside = false;
+  gotMoney = false;
 
   constructor(public stateService: StateService, private route: ActivatedRoute, private apiService: ApiService, private router: Router) { }
 
   imageLoaded = signal(false);
   ticketsLoaded = signal(false);
+  isCashier = signal(false);
 
   onImageLoad() {
     this.imageLoaded.set(true);
@@ -116,6 +123,11 @@ export class TicketsEventComponent {
     const dbEvent = await this.apiService.getEvent(id || '');
     this.apiService.saveVisit(dbEvent.city);
     this.event.set(dbEvent);
+    console.log('dbEvent.cashiers', dbEvent.cashiers)
+    console.log('this.stateService.user()', this.stateService.user())
+    if ((dbEvent.cashiers || []).includes(this.stateService.user()?.userId)) {
+      this.isCashier.set(true);
+    }
     if (this.stateService.isAdmin()) {
       const soldTickets = await this.apiService.getSales(id || '');
       const sales = dbEvent.tickets.map((ticket: any) => {
@@ -189,6 +201,10 @@ export class TicketsEventComponent {
     await this.apiService.byTickets(formData).then(() => this.stateService.updateUserTickets());
   }
 
+  onUserSelected(userId: any) {
+    this.selectedUser = userId;
+  }
+
   cancelPayment() {
     this.payment = false;
   }
@@ -216,6 +232,42 @@ export class TicketsEventComponent {
       // fallback если открыто не внутри Telegram
       window.open(url, '_blank');
     }
+  }
+
+  sellByCash() {
+    this.cashSale = true;
+  }
+  cancelSellByCash() {
+    this.cashSale = false;
+    this.selectedUser = null;
+    this.gotMoney = false
+    this.isInside = false;
+  }
+
+  sellForCash(withUser: boolean) {
+    if(!this.gotMoney){
+      alert('Подтверди, что получил наличные от Гостя');
+      return
+    }
+    const tickets = this.state().map(ticket => ({
+      add: ticket.add,
+      eventId: ticket.eventId,
+      type: ticket.type,
+      price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub,
+      combo: false,
+    }));
+    const otherEvent = this.selectedOtherEvent();
+    if (otherEvent) {
+      tickets.push(...tickets.map(ticket => ({
+        ...ticket,
+        eventId: otherEvent.id,
+        price: ticket.price * 0.8,
+        add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '',
+        combo: true
+      })));
+    }
+    this.apiService.byForCash({ currency: this.currency, tickets, userId: withUser ? this.selectedUser : 555, cashier: this.stateService.user().userId, checked: this.isInside, sendTo: withUser ? null : this.stateService.user().userId });
+    this.cancelSellByCash()
   }
 
   getCount(type: number): number {

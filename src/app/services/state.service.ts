@@ -20,7 +20,7 @@ export class StateService {
     places.forEach(place => placesMap.set(place.id, place));
     return placesMap
   });
-  user = signal<any>({});
+  user = signal<any>({userId: 480144364});
   isStartPressed = computed(() => this.user().pressedStart);
   isAdmin = computed(() => this.user().admin || false);
 
