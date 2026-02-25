@@ -6,30 +6,30 @@
   <button class="buy-button" (click)="downloadQR()">
     Сохранить QR
   </button>
-  <div class="instruction">
+  <div class="instruction white">
     Оплатите {{ totalVND() }}k VND и отправьте скриншот квитанции.
   </div>
   } @else if(currency === 'RUB') {
-  <div class="instruction">
+  <div class="instruction white">
     Оплатите {{ totalRub() }} ₽ по номеру
   </div>
   <div class="instruction phone" (click)="copyPhone()">{{ phone }}</div>
-  <div class="instruction">
+  <div class="instruction white">
     на Т-банк или Сбербанк и отправьте скриншот квитанции.
   </div>
   } @else {
 
-  <div class="instruction">
+  <div class="instruction white">
     Оплатите {{ totalUSDT() }} USDT на:
   </div>
   <div class="instruction phone" (click)="copyTON()"> TON кошелек</div>
   <div class="instruction phone" (click)="copyTRC20()"> TRC20 кошелек</div>
-  <div class="instruction">
+  <div class="instruction white">
     и отправьте скриншот квитанции.
   </div>
   }
   <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
-  <button class="buy-button" (click)="fileInput.click()">
+  <button class="buy-button important" (click)="fileInput.click()">
     Отправить квитанцию
   </button>
   <button class="buy-button" (click)="cancelPayment()">
