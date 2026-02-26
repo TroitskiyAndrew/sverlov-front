@@ -71,7 +71,17 @@ export class ApiService {
       .toPromise()
       .then(res => res || null)
       .catch(() => {
-        alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
+        return null
+      });
+  }
+
+  async changeTicketStatus(ticketId: string, inside: boolean): Promise<any | null> {
+    const url = `${environment.backendUrl}/ticket`;
+    return this.http
+      .put<any>(url, {ticketId, inside})
+      .toPromise()
+      .then(res => res || null)
+      .catch(() => {
         return null
       });
   }
