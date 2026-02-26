@@ -29,9 +29,13 @@
   </div>
   }
   <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
+  <div class="instruction white">
+    При возврате билета за 2 дня до мероприятия взымается комиссия 50%. За день до мероприятия билеты не возвращаются
+  </div>
   <button class="buy-button important" (click)="fileInput.click()">
     Отправить квитанцию
   </button>
+
   <button class="buy-button" (click)="cancelPayment()">
     Назад
   </button>
