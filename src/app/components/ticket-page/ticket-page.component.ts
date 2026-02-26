@@ -44,7 +44,7 @@ export class TicketPageComponent {
       return false;
     }
     console.log('hasEvent');
-    return (event.entrance || []).includes(this.stateService.user().id)
+    return (event.entrance || []).includes(this.stateService.user().userId)
   });
 
   constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private stateService: StateService) { }
