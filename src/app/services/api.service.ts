@@ -128,8 +128,8 @@ export class ApiService {
       });
   }
 
-  async byForCash(body: any): Promise<any[]> {
-    const url = `${environment.backendUrl}/cash`;
+  async sellTickets(body: any): Promise<any[]> {
+    const url = `${environment.backendUrl}/sell`;
     return this.http
       .post<any[]>(url, body)
       .toPromise()

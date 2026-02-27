@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class TicketsEventComponent {
   payment = false;
   currency: 'VND' | 'RUB' | 'USDT' = 'VND';
+  method: 'cash' | 'bank' = 'cash';
   event = signal<any | null>(null);
   tickets = computed(() => {
     const isAdmin = this.stateService.isAdmin();
@@ -78,7 +79,7 @@ export class TicketsEventComponent {
   TON = 'UQDl1wOU_E16LB4qecI_IK2pvZVgJcX8qUUlcFXZjjuJze06'
   TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px';
   showSales = false;
-  cashSale = false;
+  saleMode = false;
   selectedUser = null;
   isInside = false;
   gotMoney = false;
@@ -229,16 +230,16 @@ export class TicketsEventComponent {
   }
 
   sellByCash() {
-    this.cashSale = true;
+    this.saleMode = true;
   }
-  cancelSellByCash() {
-    this.cashSale = false;
+  cancelSell() {
+    this.saleMode = false;
     this.selectedUser = null;
     this.gotMoney = false
     this.isInside = false;
   }
 
-  sellForCash(withUser: boolean) {
+  sellTickets(withUser: boolean) {
     if(!this.gotMoney){
       alert('Подтверди, что получил наличные от Гостя');
       return
@@ -260,8 +261,15 @@ export class TicketsEventComponent {
         combo: true
       })));
     }
-    this.apiService.byForCash({ currency: this.currency, tickets, userId: withUser ? this.selectedUser : 555, cashier: this.stateService.user().userId, checked: this.isInside, sendTo: withUser ? null : this.stateService.user().userId });
-    this.cancelSellByCash()
+    this.apiService.sellTickets({ currency: this.currency,
+      tickets,
+      userId: withUser ? this.selectedUser : 555,
+      cashier: this.stateService.user().userId,
+      checked: this.isInside,
+      sendTo: withUser ? null : this.stateService.user().userId,
+      method: this.method,
+     });
+    this.cancelSell()
   }
 
   getCount(type: number): number {
