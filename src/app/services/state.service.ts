@@ -7,6 +7,7 @@ import { TelegrammService } from './telegramm.service';
 })
 export class StateService {
   cities = signal<any[]>([]);
+  discountEvent = '';
   eventsMap = computed(() => {
     const cities = this.cities();
     const eventsMap = new Map<string, any>();

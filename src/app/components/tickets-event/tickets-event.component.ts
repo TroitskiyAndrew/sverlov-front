@@ -21,7 +21,15 @@ export class TicketsEventComponent {
   event = signal<any | null>(null);
   tickets = computed(() => {
     const isAdmin = this.stateService.isAdmin();
-    const tickets = this.event()?.tickets || [];
+    const event = this.event() || {};
+    const tickets = event.tickets || [];
+    if(this.discount) {
+      tickets.forEach((ticket: any) => {
+        ticket.priceRub = 0.8 * ticket.priceRub;
+        ticket.priceUSDT = 0.8 * ticket.priceUSDT;
+        ticket.priceVND = 0.8 * ticket.priceVND;
+      })
+    }
     if (isAdmin) {
       return tickets;
     }
@@ -75,6 +83,7 @@ export class TicketsEventComponent {
   totalUSDT = computed(() => this.state().reduce((sum, item) => sum + item.priceUSDT, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
   showInfo = false;
   phone = environment.phone;
+  discount = false;
 
   TON = 'UQDl1wOU_E16LB4qecI_IK2pvZVgJcX8qUUlcFXZjjuJze06'
   TRC20 = 'TKcJ69dbNa4aQ3S2vUrWMAk2N4pHcfX8px';
@@ -115,7 +124,11 @@ export class TicketsEventComponent {
       this.event.set({ ...event, tickets: [] });
     }
     const dbEvent = await this.apiService.getEvent(id || '');
+
     this.apiService.saveVisit(dbEvent.city);
+    if(id === this.stateService.discountEvent){
+      this.discount = true;
+    }
     this.event.set(dbEvent);
     if ((dbEvent.cashiers || []).includes(this.stateService.user()?.userId)) {
       this.isCashier.set(true);
@@ -181,10 +194,10 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.currency || '');
-    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub, combo: false }));
+    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub, combo: false, discount: this.discount }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
-      tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '', combo: true })));
+      tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '', combo: true, discount: this.discount })));
     }
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = false;
@@ -250,6 +263,7 @@ export class TicketsEventComponent {
       type: ticket.type,
       price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub,
       combo: false,
+      discount: this.discount,
     }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {

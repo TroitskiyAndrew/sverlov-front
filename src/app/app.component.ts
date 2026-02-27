@@ -32,6 +32,9 @@ export class AppComponent {
           case 'SOURCE':
             this.apiService.saveSource(value);
             break;
+          case 'DISCOUNT':
+            this.stateService.discountEvent = value;
+            break;
 
           default:
             break;
