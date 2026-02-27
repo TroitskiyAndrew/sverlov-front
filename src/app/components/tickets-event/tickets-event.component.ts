@@ -23,7 +23,7 @@ export class TicketsEventComponent {
     const isAdmin = this.stateService.isAdmin();
     const event = this.event() || {};
     const tickets = event.tickets || [];
-    if(this.discount) {
+    if (this.discount) {
       tickets.forEach((ticket: any) => {
         ticket.priceRub = 0.8 * ticket.priceRub;
         ticket.priceUSDT = 0.8 * ticket.priceUSDT;
@@ -126,7 +126,7 @@ export class TicketsEventComponent {
     const dbEvent = await this.apiService.getEvent(id || '');
 
     this.apiService.saveVisit(dbEvent.city);
-    if(id === this.stateService.discountEvent){
+    if (id === this.stateService.discountEvent) {
       this.discount = true;
     }
     this.event.set(dbEvent);
@@ -194,10 +194,26 @@ export class TicketsEventComponent {
     const formData = new FormData();
     formData.append('image', file);
     formData.append('currency', this.currency || '');
-    const tickets = this.state().map(ticket => ({ add: ticket.add, eventId: ticket.eventId, type: ticket.type, price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub, combo: this.discount }));
+    const tickets = this.state().map(ticket => ({
+      add: ticket.add,
+      eventId: ticket.eventId,
+      type: ticket.type,
+      price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub,
+      combo: false,
+      discount: this.discount,
+      source: this.stateService.source || ''
+    }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
-      tickets.push(...tickets.map(ticket => ({ ...ticket, eventId: otherEvent.id, price: ticket.price * 0.8, add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '', combo: true, discount: this.discount })));
+      tickets.push(...tickets.map(ticket => ({
+        ...ticket,
+        eventId: otherEvent.id,
+        price: ticket.price * 0.8,
+        add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '',
+        combo: true,
+        discount: this.discount,
+        source: this.stateService.source || '',
+      })));
     }
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = false;
@@ -253,7 +269,7 @@ export class TicketsEventComponent {
   }
 
   sellTickets(withUser: boolean) {
-    if(!this.gotMoney){
+    if (!this.gotMoney) {
       alert('Подтверди, что получил наличные от Гостя');
       return
     }
@@ -262,7 +278,8 @@ export class TicketsEventComponent {
       eventId: ticket.eventId,
       type: ticket.type,
       price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub,
-      combo: this.discount,
+      combo: false,
+      discount: this.discount,
     }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
@@ -271,17 +288,19 @@ export class TicketsEventComponent {
         eventId: otherEvent.id,
         price: ticket.price * 0.8,
         add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '',
-        combo: true
+        combo: true,
+        discount: this.discount,
       })));
     }
-    this.apiService.sellTickets({ currency: this.currency,
+    this.apiService.sellTickets({
+      currency: this.currency,
       tickets,
       userId: withUser ? this.selectedUser : 555,
       cashier: this.stateService.user().userId,
       checked: this.isInside,
       sendTo: withUser ? null : this.stateService.user().userId,
       method: this.method,
-     });
+    });
     this.cancelSell()
   }
 

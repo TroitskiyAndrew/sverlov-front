@@ -33,7 +33,9 @@ export class AppComponent {
             this.apiService.saveSource(value);
             break;
           case 'DISCOUNT':
-            this.stateService.discountEvent = value;
+            const [eventId, source] = value.split('_D_')
+            this.stateService.discountEvent = eventId;
+            this.stateService.source = source || '';
             break;
 
           default:
