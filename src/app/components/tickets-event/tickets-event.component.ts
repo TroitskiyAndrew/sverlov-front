@@ -52,9 +52,6 @@ export class TicketsEventComponent {
           default:
             break;
         }
-        ticket.priceRub = 0.8 * ticket.priceRub;
-        ticket.priceUSDT = 0.8 * ticket.priceUSDT;
-        ticket.priceVND = 0.8 * ticket.priceVND;
       })
     }
     if (isAdmin) {
