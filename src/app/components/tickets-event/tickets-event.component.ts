@@ -30,6 +30,33 @@ export class TicketsEventComponent {
         ticket.priceVND = 0.8 * ticket.priceVND;
       })
     }
+    if (this.stateService.source === 'GALINA-GUESTS') {
+      tickets.forEach((ticket: any) => {
+        switch (ticket.type) {
+          case 1:
+            ticket.priceRub = 1500;
+            ticket.priceUSDT = 20;
+            ticket.priceVND = 500;
+            break;
+          case 2:
+            ticket.priceRub = 2100;
+            ticket.priceUSDT = 27;
+            ticket.priceVND = 700;
+            break;
+          case 3:
+            ticket.priceRub = 3000;
+            ticket.priceUSDT = 40;
+            ticket.priceVND = 1000;
+            break;
+
+          default:
+            break;
+        }
+        ticket.priceRub = 0.8 * ticket.priceRub;
+        ticket.priceUSDT = 0.8 * ticket.priceUSDT;
+        ticket.priceVND = 0.8 * ticket.priceVND;
+      })
+    }
     if (isAdmin) {
       return tickets;
     }
