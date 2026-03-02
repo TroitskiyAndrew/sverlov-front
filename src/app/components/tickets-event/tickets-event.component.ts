@@ -30,30 +30,6 @@ export class TicketsEventComponent {
         ticket.priceVND = 0.8 * ticket.priceVND;
       })
     }
-    if (this.stateService.source === 'GALINA-GUESTS') {
-      tickets.forEach((ticket: any) => {
-        switch (ticket.type) {
-          case 1:
-            ticket.priceRub = 1500;
-            ticket.priceUSDT = 20;
-            ticket.priceVND = 500;
-            break;
-          case 2:
-            ticket.priceRub = 2100;
-            ticket.priceUSDT = 27;
-            ticket.priceVND = 700;
-            break;
-          case 3:
-            ticket.priceRub = 3000;
-            ticket.priceUSDT = 40;
-            ticket.priceVND = 1000;
-            break;
-
-          default:
-            break;
-        }
-      })
-    }
     if (isAdmin) {
       return tickets;
     }
@@ -171,9 +147,9 @@ export class TicketsEventComponent {
       })
       const totalSales = {
         count: soldTickets.length,
-        totalRub: soldTickets.filter((sale: any) => sale.currency === 'RUB').reduce((acc: number, sale: any) => acc + sale.price, 0),
-        totalVND: soldTickets.filter((sale: any) => sale.currency === 'VND').reduce((acc: number, sale: any) => acc + sale.price, 0),
-        totalUSDT: soldTickets.filter((sale: any) => sale.currency === 'USDT').reduce((acc: number, sale: any) => acc + sale.price, 0),
+        totalRub: Math.round(soldTickets.filter((sale: any) => sale.currency === 'RUB').reduce((acc: number, sale: any) => acc + sale.price, 0) * 100) / 100 ,
+        totalVND: Math.round(soldTickets.filter((sale: any) => sale.currency === 'VND').reduce((acc: number, sale: any) => acc + sale.price, 0) * 100) / 100 ,
+        totalUSDT: Math.round(soldTickets.filter((sale: any) => sale.currency === 'USDT').reduce((acc: number, sale: any) => acc + sale.price, 0) * 100) / 100 ,
       }
       this.totalSales.set(totalSales)
       this.sales.set(sales);
