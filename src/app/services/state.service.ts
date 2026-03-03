@@ -9,6 +9,15 @@ export class StateService {
   cities = signal<any[]>([]);
   discountEvent = '';
   source = '';
+  target = '';
+  sessionId = this.generateSecureId();
+  queryParams: Record<string, any> | null = null;
+  citiesMap = computed(() => {
+    const cities = this.cities();
+    const citiesMap = new Map<string, any>();
+    cities.forEach(city => citiesMap.set(city.id, city));
+    return citiesMap
+  })
   eventsMap = computed(() => {
     const cities = this.cities();
     const eventsMap = new Map<string, any>();
@@ -39,7 +48,7 @@ export class StateService {
   }
 
   async init() {
-    if(this.telegrammService.initData){
+    if (this.telegrammService.initData) {
       this.updateUserTickets();
       const user = await this.apiService.getUser(this.telegrammService.user?.id || 0);
       this.user.set(user || {});
@@ -49,5 +58,14 @@ export class StateService {
     const places = await this.apiService.getPlaces();
     this.places.set(places);
 
+  }
+  generateSecureId(length: number = 10): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const array = new Uint8Array(length);
+    crypto.getRandomValues(array);
+
+    return Array.from(array)
+      .map(x => chars[x % chars.length])
+      .join('');
   }
 }

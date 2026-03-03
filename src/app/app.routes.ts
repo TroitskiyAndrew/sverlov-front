@@ -1,12 +1,9 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './components/home-page/home-page.component';
-import { EventPageComponent } from './components/event-page/event-page.component';
-import { TicketsPageComponent } from './components/tickets-page/tickets-page.component';
-import { TicketsTourComponent } from './components/tickets-tour/tickets-tour.component';
-import { TicketsMainComponent } from './components/tickets-main/tickets-main.component';
 import { TicketsEventComponent } from './components/tickets-event/tickets-event.component';
 import { MyTicketsPageComponent } from './components/my-tickets-page/my-tickets-page.component';
 import { TicketPageComponent } from './components/ticket-page/ticket-page.component';
+import { TargetComponent } from './components/target/target.component';
 
 export const routes: Routes = [
   {
@@ -25,5 +22,9 @@ export const routes: Routes = [
   {
     path: 'my-tickets',
     component: MyTicketsPageComponent
+  },
+  {
+    path: '**',
+    component: TargetComponent
   },
 ];

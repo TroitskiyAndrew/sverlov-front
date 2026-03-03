@@ -107,10 +107,10 @@ export class ApiService {
         return [null]
       });
   }
-  async saveVisit(city: string): Promise<any | null> {
+  async saveVisit(city: string, event: string): Promise<any | null> {
     const url = `${environment.backendUrl}/cities`;
     return this.http
-      .post<any>(url, {city})
+      .post<any>(url, {city, event})
       .toPromise()
       .then(res => res || null).catch(() => {
         alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
