@@ -125,7 +125,7 @@ export class TicketsEventComponent {
     }
     const dbEvent = await this.apiService.getEvent(id || '');
     console.log(this.stateService.citiesMap().get(dbEvent.city))
-    const eventStr = `${this.stateService.citiesMap().get(dbEvent.city)?.name || 'Город'} ${dbEvent.date} ${this.eventNames[dbEvent.type]}`
+    const eventStr = `${dbEvent.cityName} ${dbEvent.date} ${this.eventNames[dbEvent.type]}`
     this.apiService.saveVisit(dbEvent.city, eventStr);
     if (id === this.stateService.discountEvent) {
       this.discount = true;
