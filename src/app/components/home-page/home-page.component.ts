@@ -92,7 +92,7 @@ export class HomePageComponent {
     if (this.telegrammService.initData || !environment.production) {
       this.router.navigate(['/event', event.id]);
     } else {
-      window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=EVENT_SPLIT_${event.id}`, '_blank');
+      window.open(`https://t.me/sverlov_vietnam_2026_bot?startapp=SESSION_SPLIT_${this.stateService.sessionId}_SEP_EVENT_SPLIT_${event.id}`, '_blank');
     }
   }
   openMyTickets() {

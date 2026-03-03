@@ -29,6 +29,10 @@ export class AppComponent {
           case 'TICKET':
             this.router.navigate(['check-ticket', value]);
             break;
+          case 'SESSION':
+            this.stateService.sessionId = value;
+            this.apiService.getCities();
+            break;
           case 'SOURCE':
             this.apiService.saveSource(value);
             break;
