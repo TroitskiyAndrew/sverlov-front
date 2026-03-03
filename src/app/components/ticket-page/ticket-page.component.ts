@@ -57,7 +57,9 @@ export class TicketPageComponent {
       const ticket = this.ticket()
       const tickets = await this.apiService.getTicketsByBooking(ticket.bookingId);
       this.tickets.set([
-        ticket, ...tickets.filter((bookingTicket) => bookingTicket.id !== ticket.id)
+        ticket, ...tickets.filter((bookingTicket) => {
+          return bookingTicket.id !== ticket.id && bookingTicket.event.id === ticket.event.id
+        })
       ])
     })
   }
