@@ -74,6 +74,16 @@ export class ApiService {
         return null
       });
   }
+  async getTicketsByBooking(bookingId: string): Promise<any[]> {
+    const url = `${environment.backendUrl}/booking/${bookingId}`;
+    return this.http
+      .get<any>(url)
+      .toPromise()
+      .then(res => res || [])
+      .catch(() => {
+        return []
+      });
+  }
 
   async changeTicketStatus(ticketId: string, inside: boolean): Promise<any | null> {
     const url = `${environment.backendUrl}/ticket`;

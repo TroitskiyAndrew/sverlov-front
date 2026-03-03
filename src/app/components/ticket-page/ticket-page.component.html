@@ -9,8 +9,69 @@
   <div>Билет не найден</div>
   }
   @default {
-  <div class="ticket-button">
 
+
+  @if(isEntrance()){
+    @for (ticket of tickets(); track ticket.id) {
+      @let status = getStatus(ticket);
+      <div class="ticket-button">
+    <div class="ticket-top">
+      <div class="ticket-city">
+        {{ ticket.city?.name }}
+      </div>
+
+      <div class="ticket-type">
+        {{ ticketNames[ticket.type] }}
+      </div>
+    </div>
+    @if (ticket.add) {
+    <div class="ticket-add">
+      {{ ticket.add }}
+    </div>
+    }
+    <div class="ticket-info">
+      <div>
+        {{ ticket.event?.date }} · {{ ticket.event?.start }}
+      </div>
+
+      <div class="ticket-place">
+        {{ ticket.place?.name }}
+      </div>
+
+    </div>
+
+    <div [ngClass]="['ticket-status', status]">
+      @switch (status) {
+      @case (TicketStatus.Refound) {
+      Билет вернули
+      }
+      @case (TicketStatus.Inside) {
+      Гость уже внутри
+      }
+      @case (TicketStatus.Default) {
+      Билет в порядке
+      }
+      }
+    </div>
+
+
+  </div>
+      @switch (status) {
+    @case (TicketStatus.Inside) {
+    <button class="buy-button" (click)="changeStatus(ticket, false)">
+      Гость вышел из зала
+    </button>
+    }
+    @case (TicketStatus.Default) {
+    <button class="buy-button" (click)="changeStatus(ticket, true)">
+      Гость зашел в зал
+    </button>
+    }
+    }
+    }
+
+  } @else {
+  <div class="ticket-button">
     <div class="ticket-top">
       <div class="ticket-city">
         {{ ticket().city?.name }}
@@ -51,20 +112,6 @@
     </div>
 
   </div>
-
-  @if(showButton()){
-    @switch (status()) {
-    @case (TicketStatus.Inside) {
-    <button class="buy-button" (click)="changeStatus(false)">
-      Гость вышел из зала
-    </button>
-    }
-    @case (TicketStatus.Default) {
-    <button class="buy-button" (click)="changeStatus(true)">
-      Гость зашел в зал
-    </button>
-    }
-    }
   }
 
   }

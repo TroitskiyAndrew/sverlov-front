@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { environment } from '../../../environments/environment';
@@ -22,32 +22,52 @@ enum TicketStatus {
 export class TicketPageComponent {
 
   ticket = signal<any | undefined | null>(undefined);
+  tickets = signal<any[]>([]);
   ticketNames = TICKET_NAMES;
   TicketStatus = TicketStatus;
   status = computed(() => {
     const ticket = this.ticket();
-    if(!ticket){
+    if (!ticket) {
       return TicketStatus.NoTicket
     }
-    if(ticket.refound){
+    if (ticket.refound) {
       return TicketStatus.Refound
     }
     return ticket.checked ? TicketStatus.Inside : TicketStatus.Default
   });
-  showButton = computed(() => {
+  isEntrance = computed(() => {
     const ticket = this.ticket();
-    if(!ticket){
+    if (!ticket) {
       return false;
     }
     const event = this.stateService.eventsMap().get(ticket.event.id);
-    if(!event){
+    if (!event) {
       return false;
     }
     console.log('hasEvent');
     return (event.entrance || []).includes(this.stateService.user().userId)
   });
 
-  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private stateService: StateService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private apiService: ApiService, private stateService: StateService) {
+    effect(async () => {
+      const isEntrance = this.isEntrance();
+      if (!isEntrance) {
+        return;
+      }
+      const ticket = this.ticket()
+      const tickets = await this.apiService.getTicketsByBooking(ticket.bookingId);
+      this.tickets.set([
+        ticket, ...tickets.filter((bookingTicket) => bookingTicket.id !== ticket.id)
+      ])
+    })
+  }
+
+  getStatus(ticket: any) {
+    if (ticket.refound) {
+      return TicketStatus.Refound
+    }
+    return ticket.checked ? TicketStatus.Inside : TicketStatus.Default
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -58,13 +78,12 @@ export class TicketPageComponent {
   back() {
     this.router.navigate(['']);
   }
-  async changeStatus(inside: boolean){
-    const ticket = this.ticket();
-    this.ticket.set(undefined)
-    const isUpdated =  await this.apiService.changeTicketStatus(ticket.id, inside);
-    if(isUpdated){
+  async changeStatus(ticket: any,inside: boolean) {
+    const isUpdated = await this.apiService.changeTicketStatus(ticket.id, inside);
+    if (isUpdated) {
       ticket.checked = inside;
     }
-    this.ticket.set(ticket);
+    const tickets = this.tickets();
+    this.tickets.set([...tickets]);
   }
 }
