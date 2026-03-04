@@ -9,19 +9,37 @@ export const initDataInterceptor: HttpInterceptorFn = (req, next) => {
   const tg = inject(TelegrammService);
   const state = inject(StateService);
   const initData = tg.initData;
-  // если пусто — не трогаем запрос
-  const clonedWithSession = req.clone({
-    body: {
-      ...(req.body || {}),
-      sessionId: state.sessionId,
-    }
-  });
-  if (!initData) return next(clonedWithSession);
 
-  // пример: добавлять всегда
-  const cloned = clonedWithSession.clone({
-    setHeaders: { [HEADER_NAME]: initData }
-  });
+  let modifiedReq = req;
 
-  return next(cloned);
+  // === Обработка body ===
+  if (req.body instanceof FormData) {
+    const formData = new FormData();
+
+    // копируем существующие поля
+    req.body.forEach((value, key) => {
+      formData.append(key, value);
+    });
+
+    // добавляем sessionId
+    formData.append('sessionId', state.sessionId);
+
+    modifiedReq = req.clone({ body: formData });
+  } else if (req.body && typeof req.body === 'object') {
+    modifiedReq = req.clone({
+      body: {
+        ...req.body,
+        sessionId: state.sessionId,
+      },
+    });
+  }
+
+  // === Добавление заголовка ===
+  if (initData) {
+    modifiedReq = modifiedReq.clone({
+      setHeaders: { [HEADER_NAME]: initData },
+    });
+  }
+
+  return next(modifiedReq);
 };
