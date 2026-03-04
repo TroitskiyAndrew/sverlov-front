@@ -6,6 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../services/api.service';
 
 declare global {
   interface Window {
@@ -25,8 +26,10 @@ export class InstagramReelsCarouselComponent implements AfterViewInit {
   @Input() short: boolean = false;
 
   @ViewChild('carousel') carousel!: ElementRef;
+  constructor(private apiService: ApiService){}
 
   ngAfterViewInit() {
+    this.apiService.saveSource('scroll reels');
     setTimeout(() => {
       if (window.instgrm) {
         window.instgrm.Embeds.process();
