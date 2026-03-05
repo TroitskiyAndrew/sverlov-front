@@ -218,7 +218,7 @@ export class TicketsEventComponent {
     }
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = false;
-    this.showInfo = false;
+    this.showInfo = true;
     this.stateService.loadingUserTickets = true;
     await this.apiService.byTickets(formData).then(() => this.stateService.updateUserTickets());
   }
