@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { InstagramReelsCarouselComponent } from "../instagram-reels-carousel/instagram-reels-carousel.component";
 import { StateService } from '../../services/state.service';
 import { EVENT_NAMES } from '../../constants/constants';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { TelegrammService } from '../../services/telegramm.service';
 import { MediaCarouselComponent, MediaItem } from "../media-carousel/media-carousel.component";
 import { environment } from '../../../environments/environment';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-home-page',
@@ -15,6 +16,8 @@ import { environment } from '../../../environments/environment';
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent {
+
+  @ViewChild('tour') targetBlock!: ElementRef;
 
   eventsNames = EVENT_NAMES;
   reels = [
@@ -70,13 +73,34 @@ export class HomePageComponent {
 
   fromBot = false;
 
-  constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService) { }
+  private observer!: IntersectionObserver;
+  private triggered = false;
+
+  constructor(public stateService: StateService, private router: Router, private telegrammService: TelegrammService, private apiService: ApiService) { }
 
   ngOnInit() {
     if (this.telegrammService.initData) {
       this.fromBot = true;
     }
   }
+
+    ngAfterViewInit() {
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !this.triggered) {
+          this.triggered = true;
+          this.apiService.saveSource('look at tour')
+          this.observer.disconnect(); // отключаем после первого срабатывания
+        }
+      });
+    }, {
+      threshold: 0.3 // сколько % блока должно быть видно
+    });
+
+    this.observer.observe(this.targetBlock.nativeElement);
+  }
+
+
 
   scrollTo(where: string) {
     const element = document.getElementById(where);
