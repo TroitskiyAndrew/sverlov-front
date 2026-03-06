@@ -29,7 +29,7 @@ export class InstagramReelsCarouselComponent implements AfterViewInit {
   constructor(private apiService: ApiService){}
 
   ngAfterViewInit() {
-    this.apiService.saveSource('scroll reels');
+    this.apiService.savePath('scroll reels');
     setTimeout(() => {
       if (window.instgrm) {
         window.instgrm.Embeds.process();

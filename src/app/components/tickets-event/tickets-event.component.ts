@@ -162,7 +162,7 @@ export class TicketsEventComponent {
 
   buyTickets() {
     this.payment = true;
-    this.apiService.saveSource('press-buy');
+    this.apiService.savePath('press-buy');
   }
 
   downloadQR() {
@@ -220,7 +220,7 @@ export class TicketsEventComponent {
     formData.append('tickets', JSON.stringify(tickets));
     this.payment = false;
     this.showInfo = true;
-    this.apiService.saveSource('bought tickets');
+    this.apiService.savePath('bought tickets');
     this.stateService.loadingUserTickets = true;
     await this.apiService.byTickets(formData).then(() => this.stateService.updateUserTickets());
   }
@@ -252,7 +252,7 @@ export class TicketsEventComponent {
   buyByCash() {
     const cashierUsername = this.event().cashTaker || 's_gruzdova';
     const url = `https://t.me/${cashierUsername}`;
-    this.apiService.saveSource('buyByCash');
+    this.apiService.savePath('buyByCash');
     if ((window as any)?.Telegram?.WebApp) {
       (window as any).Telegram.WebApp.openTelegramLink(url);
     } else {

@@ -89,7 +89,7 @@ export class HomePageComponent {
       entries.forEach(entry => {
         if (entry.isIntersecting && !this.triggered) {
           this.triggered = true;
-          this.apiService.saveSource('look at tour')
+          this.apiService.savePath('look at tour')
           this.observer.disconnect(); // отключаем после первого срабатывания
         }
       });

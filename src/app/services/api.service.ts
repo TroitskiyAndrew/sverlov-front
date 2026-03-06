@@ -138,6 +138,17 @@ export class ApiService {
       });
   }
 
+  async savePath(pathPoint: string): Promise<any | null> {
+    const url = `${environment.backendUrl}/path`;
+    return this.http
+      .post<any>(url, {pathPoint})
+      .toPromise()
+      .then(res => res || null).catch(() => {
+        alert('Что-то пошло не так. Напишите в чат с ботом. Напишите в чат с ботом, мы разберемся');
+        return null
+      });
+  }
+
   async sellTickets(body: any): Promise<any[]> {
     const url = `${environment.backendUrl}/sell`;
     return this.http
