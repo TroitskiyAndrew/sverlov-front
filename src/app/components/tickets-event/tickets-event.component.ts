@@ -332,15 +332,15 @@ export class TicketsEventComponent {
         discount: this.discount,
       })));
     }
-    // this.apiService.sellTickets({
-    //   currency: this.currency,
-    //   tickets,
-    //   userId: withUser ? this.selectedUser : 555,
-    //   cashier: this.stateService.user().userId,
-    //   checked: this.isInside,
-    //   sendTo: withUser ? null : this.stateService.user().userId,
-    //   method: this.method,
-    // });
+    this.apiService.sellTickets({
+      currency: this.currency,
+      tickets,
+      userId: withUser ? this.selectedUser : 555,
+      cashier: this.stateService.user().userId,
+      checked: this.isInside,
+      sendTo: withUser ? null : this.stateService.user().userId,
+      method: this.method,
+    });
     this.cancelSell()
   }
 
