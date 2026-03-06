@@ -92,18 +92,18 @@
 }
 
 .tour-button {
-  padding: 14px 34px;
+  padding: 18px 34px;
 
   font-size: 16px;
   font-weight: 500;
   letter-spacing: 1px;
 
   background: transparent;
-  color: #d4af37;
+  color: white;
 
   border: 1.5px solid #d4af37;
   border-radius: 40px;
-
+  background-color: #d4af37;
   cursor: pointer;
 
   transition: all 0.3s ease;
@@ -130,6 +130,7 @@
   flex-direction: column;
   align-items: center;
   row-gap: 20px;
+  min-height: 500px;
 }
 
 .city-block {
