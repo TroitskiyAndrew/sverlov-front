@@ -81,6 +81,12 @@ export class TicketsEventComponent {
   totalVND = computed(() => this.state().reduce((sum, item) => sum + item.priceVND, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
   totalRub = computed(() => this.state().reduce((sum, item) => sum + item.priceRub, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
   totalUSDT = computed(() => this.state().reduce((sum, item) => sum + item.priceUSDT, 0) * (this.selectedOtherEvent() ? 1.8 : 1));
+  canChange = computed(() => {
+    const state = this.state();
+    const types = new Set(state.map(ticket => ticket.type));
+    return types.size === 1;
+  })
+  total = 0;
   showInfo = false;
   phone = environment.phone;
   discount = false;
@@ -163,6 +169,18 @@ export class TicketsEventComponent {
   buyTickets() {
     this.payment = true;
     this.apiService.savePath('press-buy');
+    switch (this.currency) {
+      case 'RUB':
+        this.total = this.totalRub();
+        break;
+      case 'VND':
+        this.total = this.totalVND();
+        break;
+      case 'USDT':
+        this.total = this.totalUSDT();
+        break;
+
+    }
   }
 
   downloadQR() {
@@ -263,6 +281,18 @@ export class TicketsEventComponent {
 
   sellByCash() {
     this.saleMode = true;
+    switch (this.currency) {
+      case 'RUB':
+        this.total = this.totalRub();
+        break;
+      case 'VND':
+        this.total = this.totalVND();
+        break;
+      case 'USDT':
+        this.total = this.totalUSDT();
+        break;
+
+    }
   }
   cancelSell() {
     this.saleMode = false;
@@ -276,7 +306,8 @@ export class TicketsEventComponent {
       alert('Подтверди, что получил наличные от Гостя');
       return
     }
-    const tickets = this.state().map(ticket => ({
+    const state = this.state();
+    const tickets = state.map(ticket => ({
       add: ticket.add,
       eventId: ticket.eventId,
       type: ticket.type,
@@ -284,6 +315,12 @@ export class TicketsEventComponent {
       combo: false,
       discount: this.discount,
     }));
+    if(this.canChange()) {
+      tickets.forEach(ticket => {
+        ticket.price = this.total / tickets.length
+      })
+    }
+
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
       tickets.push(...tickets.map(ticket => ({
@@ -295,15 +332,15 @@ export class TicketsEventComponent {
         discount: this.discount,
       })));
     }
-    this.apiService.sellTickets({
-      currency: this.currency,
-      tickets,
-      userId: withUser ? this.selectedUser : 555,
-      cashier: this.stateService.user().userId,
-      checked: this.isInside,
-      sendTo: withUser ? null : this.stateService.user().userId,
-      method: this.method,
-    });
+    // this.apiService.sellTickets({
+    //   currency: this.currency,
+    //   tickets,
+    //   userId: withUser ? this.selectedUser : 555,
+    //   cashier: this.stateService.user().userId,
+    //   checked: this.isInside,
+    //   sendTo: withUser ? null : this.stateService.user().userId,
+    //   method: this.method,
+    // });
     this.cancelSell()
   }
 

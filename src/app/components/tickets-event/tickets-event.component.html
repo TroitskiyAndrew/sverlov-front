@@ -91,6 +91,10 @@
       }
 
   }
+  @if(!selectedOtherEvent() && canChange()){
+    <div class="gold-input">
+    <input [(ngModel)]="total" type="number" placeholder="Другая сумма" />
+  </div>
 
   <label class="gold-checkbox">
     <input type="checkbox" [(ngModel)]="gotMoney" />
@@ -107,17 +111,20 @@
 
       @switch (currency) {
       @case ('VND') {
-      {{ totalVND() }}k VND
+      {{ total }}k VND
       }
       @case ('RUB') {
-      {{ totalRub() }} ₽
+      {{ total }} ₽
       }
       @case ('USDT') {
-      {{ totalUSDT() }} USDT
+      {{ total }} USDT
       }
       }
     </span>
   </label>
+
+
+  }
 
   @if(selectedUser) {
   <button class="buy-button" (click)="sellTickets(true)">
