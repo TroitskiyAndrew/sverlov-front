@@ -43,6 +43,14 @@
   <div class="instruction white">
     Спасибо за покупку! После подтверждения оплаты(в рабочее время), бот отправит вам билеты в телеграмм
   </div>
+  <div class="important">
+    <div class="row">
+      Сбор гостей: {{event().start}}
+    </div>
+    <div class="row">
+      Старт шоу: {{event().start.slice(0,3)}}30
+    </div>
+  </div>
   @if (!stateService.isStartPressed()){
   <div class="important">
     Нажми старт в диалоге с ботом, чтобы он смог прислать тебе билеты
@@ -81,18 +89,18 @@
     </button>
   </div>
   @if (method === 'bank') {
-    @switch (currency) {
-      @case ('VND') {
-      <img class="qr" src="assets/qr.png" alt="QR">
-      }
-      @case ('RUB') {
-      <div class="instruction phone" (click)="copyPhone()">{{ phone }}</div>
-      }
-      }
+  @switch (currency) {
+  @case ('VND') {
+  <img class="qr" src="assets/qr.png" alt="QR">
+  }
+  @case ('RUB') {
+  <div class="instruction phone" (click)="copyPhone()">{{ phone }}</div>
+  }
+  }
 
   }
   @if(!selectedOtherEvent() && canChange()){
-    <div class="gold-input">
+  <div class="gold-input">
     <input [(ngModel)]="total" type="number" placeholder="Другая сумма" />
   </div>
 
@@ -147,11 +155,18 @@
 
   <div class="timing">
     <div> {{event().date}}</div>
-    <div> {{event().start}}</div>
-    <div class="adults"> 18+</div>
+  </div>
+  <div class="important">
+    <div class="row">
+      Сбор гостей: {{event().start}}
+    </div>
+    <div class="row">
+      Старт шоу: {{event().start.slice(0,3)}}30
+    </div>
   </div>
   <div class="event">
     <div class="white"> {{eventNames[event().type]}}</div>
+    <div class="adults"> 18+</div>
   </div>
   <div class="place">
     @if(place()){
@@ -180,26 +195,25 @@
 
     <div class="combo-events">
       @for (event of otherEvents(); track event.id) {
+
       <div class="combo-item" [class.selected]="selectedOtherEvent()?.id === event.id"
         (click)="selectOtherEvent(event)">
 
-        <div class="combo-checkbox">
-          <div class="checkmark" *ngIf="selectedOtherEvent()?.id === event.id">
-          </div>
-        </div>
+        <div class="combo-checkbox"></div>
 
         <div class="combo-info">
+
           <div class="combo-type">
             {{ eventNames[event.type] }}
           </div>
 
           <div class="combo-date">
             {{ event.date }} {{ event.start }}
+
             <span class="combo-place">
-              {{
-              stateService.placesMap().get(event.place)?.name
-              }}
+              {{ stateService.placesMap().get(event.place)?.name }}
             </span>
+
           </div>
 
         </div>
@@ -269,6 +283,9 @@
       <button class="segment" [class.active]="currency === 'USDT'" (click)="currency = 'USDT'">
         USDT
       </button>
+    </div>
+    <div class="important">
+      В день концерта билеты будут дороже
     </div>
     @if (!ticketsLoaded()) {
     <div class="ticket-loader">
