@@ -38,7 +38,11 @@ export class AppComponent {
             break;
           case 'DISCOUNT':
             const [eventId, source] = value.split('_D_');
-            this.stateService.discountEvent = eventId;
+            const now = new Date()
+            if(now.getDate() <= 13) {
+              this.stateService.discountEvent = eventId;
+
+            }
             break;
 
           default:
