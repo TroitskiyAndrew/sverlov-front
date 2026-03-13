@@ -25,9 +25,9 @@ export class TicketsEventComponent {
     const tickets = event.tickets || [];
     if (this.discount) {
       tickets.forEach((ticket: any) => {
-        ticket.priceRub = 0.8 * ticket.priceRub;
-        ticket.priceUSDT = 0.8 * ticket.priceUSDT;
-        ticket.priceVND = 0.8 * ticket.priceVND;
+        ticket.priceRub = 0.7 * ticket.priceRub;
+        ticket.priceUSDT = 0.7 * ticket.priceUSDT;
+        ticket.priceVND = 0.7 * ticket.priceVND;
       })
     }
     if (isAdmin) {
@@ -221,7 +221,6 @@ export class TicketsEventComponent {
       price: this.currency === 'VND' ? ticket.priceVND : this.currency === 'USDT' ? ticket.priceUSDT : ticket.priceRub,
       combo: false,
       discount: this.discount,
-      source: this.stateService.source || ''
     }));
     const otherEvent = this.selectedOtherEvent();
     if (otherEvent) {
@@ -232,7 +231,6 @@ export class TicketsEventComponent {
         add: otherEvent.tickets.find((t: any) => t.type === ticket.type)?.add || '',
         combo: true,
         discount: this.discount,
-        source: this.stateService.source || '',
       })));
     }
     formData.append('tickets', JSON.stringify(tickets));

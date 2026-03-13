@@ -39,7 +39,6 @@ export class AppComponent {
           case 'DISCOUNT':
             const [eventId, source] = value.split('_D_');
             this.stateService.discountEvent = eventId;
-            this.stateService.source = source || '';
             break;
 
           default:
