@@ -39,9 +39,10 @@ export class AppComponent {
           case 'DISCOUNT':
             const [eventId, source] = value.split('_D_');
             const now = new Date()
-            if(now.getDate() <= 13) {
+            if(source === 'FUKUOK-CONCERT' &&  now.getDate() > 13) {
+              console.log('To late');
+            } else {
               this.stateService.discountEvent = eventId;
-
             }
             break;
 
