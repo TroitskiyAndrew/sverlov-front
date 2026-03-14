@@ -25,9 +25,9 @@ export class TicketsEventComponent {
     const tickets = event.tickets || [];
     if (this.discount) {
       tickets.forEach((ticket: any) => {
-        ticket.priceRub = Math.round(0.7 * ticket.priceRub);
-        ticket.priceUSDT = Math.round(0.7 * ticket.priceUSDT);
-        ticket.priceVND = Math.round(0.7 * ticket.priceVND);
+        ticket.priceRub = Math.round(0.8 * ticket.priceRub);
+        ticket.priceUSDT = Math.round(0.8 * ticket.priceUSDT);
+        ticket.priceVND = Math.round(0.8 * ticket.priceVND);
       })
     }
     if (isAdmin) {
