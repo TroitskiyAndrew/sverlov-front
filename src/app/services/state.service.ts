@@ -21,7 +21,7 @@ export class StateService {
   eventsMap = computed(() => {
     const cities = this.cities();
     const eventsMap = new Map<string, any>();
-    cities.map(city => city.events).flat().forEach(event => eventsMap.set(event.id, event));
+    cities.map(city => city.events).flat().filter(Boolean).forEach(event => eventsMap.set(event.id, event));
     return eventsMap
   })
   places = signal<any[]>([]);
